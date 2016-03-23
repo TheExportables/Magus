@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Magus.Tabs.MTab4"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:tabs="clr-namespace:Magus.Tabs.STabs4"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel LastChildFill="True">
+        <TabControl x:Name="tcDesc" Margin="5" SelectedIndex="0">
+            <TabItem Header="Fajok">
+                <tabs:STab41/>
+            </TabItem>
+            <TabItem Header="Kasztok">
+                <tabs:STab42/>
+            </TabItem>
+            <TabItem Header="Területek">
+                <tabs:STab43/>
+            </TabItem>
+            <TabItem Header="Vallások">
+                <tabs:STab44/>
+            </TabItem>
+            <TabItem Header="Képességek">
+                <tabs:STab45/>
+            </TabItem>
+            <TabItem Header="Képzettségek">
+                <tabs:STab46/>
+            </TabItem>
+            <TabItem Header="Varázslatok">
+                <tabs:STab47/>
+            </TabItem>
+            <TabItem Header="Tárgyak">
+                <tabs:STab48/>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Magus.Tabs.MTab1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:tabs="clr-namespace:Magus.Tabs.STabs1"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <DockPanel LastChildFill="True">
+        <TabControl x:Name="tcQuest" Margin="5" SelectedIndex="0">
+            <TabItem Header="Karakterek">
+                <tabs:STab11/>
+            </TabItem>
+            <TabItem Header="Helyszínek">
+                <tabs:STab12/>
+            </TabItem>
+            <TabItem Header="Képek">
+                <tabs:STab13/>
+            </TabItem>
+            <TabItem Header="Háttérzenék">
+                <tabs:STab14/>
+            </TabItem>
+            <TabItem Header="Üzenetek">
+                <tabs:STab15/>
+            </TabItem>
+            <TabItem Header="Harc">
+                <tabs:STab16/>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

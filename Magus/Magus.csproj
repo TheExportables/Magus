@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8D32568D-2E86-4FBD-8B79-7822BF6C2047}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Magus</RootNamespace>
+    <AssemblyName>Magus</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Controls\AudioPlayer.xaml.cs">
+      <DependentUpon>AudioPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ColorDialog.xaml.cs">
+      <DependentUpon>ColorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RichTextFile.cs" />
+    <Compile Include="Controls\TextDialog.xaml.cs">
+      <DependentUpon>TextDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AdventurerCharacterClass.cs" />
+    <Compile Include="Model\Armor.cs" />
+    <Compile Include="Model\Cash.cs" />
+    <Compile Include="Model\Character.cs" />
+    <Compile Include="Model\CharacterClass.cs" />
+    <Compile Include="Model\Characteristic.cs" />
+    <Compile Include="Model\CharacterSize.cs" />
+    <Compile Include="Model\Dice.cs" />
+    <Compile Include="Model\DiceValue.cs" />
+    <Compile Include="Model\Fp.cs" />
+    <Compile Include="Model\Hp.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\MagicMastery.cs" />
+    <Compile Include="Model\MagicSchool.cs" />
+    <Compile Include="Model\MagicSpell.cs" />
+    <Compile Include="Model\Mana.cs" />
+    <Compile Include="Model\Message.cs" />
+    <Compile Include="Model\Messages.cs" />
+    <Compile Include="Model\Perk.cs" />
+    <Compile Include="Model\Picture.cs" />
+    <Compile Include="Model\Pictures.cs" />
+    <Compile Include="Model\PriestSpell.cs" />
+    <Compile Include="Model\Psi.cs" />
+    <Compile Include="Model\Race.cs" />
+    <Compile Include="Model\Range.cs" />
+    <Compile Include="Model\Reputation.cs" />
+    <Compile Include="Model\Resistance.cs" />
+    <Compile Include="Model\ResistanceType.cs" />
+    <Compile Include="Model\Shield.cs" />
+    <Compile Include="Model\Skill.cs" />
+    <Compile Include="Model\SkillRequirement.cs" />
+    <Compile Include="Model\Song.cs" />
+    <Compile Include="Model\Songs.cs" />
+    <Compile Include="Model\Spell.cs" />
+    <Compile Include="Model\Stat.cs" />
+    <Compile Include="Model\StatDependency.cs" />
+    <Compile Include="Model\StatRequirement.cs" />
+    <Compile Include="Model\Stats.cs" />
+    <Compile Include="Model\Weapon.cs" />
+    <Compile Include="Model\WeaponCategory.cs" />
+    <Compile Include="Model\WeaponHandlingAttribute.cs" />
+    <Compile Include="Model\WeaponSize.cs" />
+    <Compile Include="Tabs\MTabs\MTab1.xaml.cs">
+      <DependentUpon>MTab1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\MTabs\MTab2.xaml.cs">
+      <DependentUpon>MTab2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\MTabs\MTab3.xaml.cs">
+      <DependentUpon>MTab3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\MTabs\MTab4.xaml.cs">
+      <DependentUpon>MTab4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs1\STab11.xaml.cs">
+      <DependentUpon>STab11.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs1\STab12.xaml.cs">
+      <DependentUpon>STab12.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs1\STab13.xaml.cs">
+      <DependentUpon>STab13.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs1\STab14.xaml.cs">
+      <DependentUpon>STab14.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs1\STab15.xaml.cs">
+      <DependentUpon>STab15.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs1\STab16.xaml.cs">
+      <DependentUpon>STab16.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STab21.xaml.cs">
+      <DependentUpon>STab21.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STab22.xaml.cs">
+      <DependentUpon>STab22.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STab23.xaml.cs">
+      <DependentUpon>STab23.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STab24.xaml.cs">
+      <DependentUpon>STab24.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STab25.xaml.cs">
+      <DependentUpon>STab25.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs3\STab31.xaml.cs">
+      <DependentUpon>STab31.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs3\STab32.xaml.cs">
+      <DependentUpon>STab32.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs3\STab33.xaml.cs">
+      <DependentUpon>STab33.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs3\STab34.xaml.cs">
+      <DependentUpon>STab34.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs3\STab35.xaml.cs">
+      <DependentUpon>STab35.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab41.xaml.cs">
+      <DependentUpon>STab41.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab42.xaml.cs">
+      <DependentUpon>STab42.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab43.xaml.cs">
+      <DependentUpon>STab43.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab44.xaml.cs">
+      <DependentUpon>STab44.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab45.xaml.cs">
+      <DependentUpon>STab45.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab46.xaml.cs">
+      <DependentUpon>STab46.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab47.xaml.cs">
+      <DependentUpon>STab47.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs4\STab48.xaml.cs">
+      <DependentUpon>STab48.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\CharacterViewModel.cs" />
+    <Page Include="Controls\AudioPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ColorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TextDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Tabs\MTabs\MTab1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\MTabs\MTab2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\MTabs\MTab3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\MTabs\MTab4.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs1\STab11.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs1\STab12.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs1\STab13.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs1\STab14.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs1\STab15.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs1\STab16.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STab21.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STab22.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STab23.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STab24.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STab25.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs3\STab31.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs3\STab32.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs3\STab33.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs3\STab34.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs3\STab35.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab41.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab42.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab43.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab44.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab45.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab46.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab47.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs4\STab48.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\maguslogo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\ColorSwatchCircle.png" />
+    <Resource Include="Resources\Images\ColorSwatchSquare1.png" />
+    <Resource Include="Resources\Images\ColorSwatchSquare2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\ellipse-icon.jpg" />
+    <Resource Include="Resources\Images\pen-icon.png" />
+    <Resource Include="Resources\Images\rect-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\eraser-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\cursor-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\text-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\magus-icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\save-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\open-folder-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\pen-icon-green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\eraser.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\dustbin-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\pause-icon.png" />
+    <Resource Include="Resources\Images\stop-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\play-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\text-bold-icon.png" />
+    <Resource Include="Resources\Images\text-italic-icon.png" />
+    <Resource Include="Resources\Images\text-underline-icon.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
