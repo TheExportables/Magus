@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Magus.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace Magus.Tabs.STabs2
 {
@@ -20,9 +22,38 @@ namespace Magus.Tabs.STabs2
     /// </summary>
     public partial class STab21 : UserControl
     {
+        CharacterViewModel cvm;
+
         public STab21()
         {
             InitializeComponent();
+            cvm = new CharacterViewModel();
+            this.DataContext = cvm.GetCharacter;
         }
+
+        private void next_click(object sender, RoutedEventArgs e) {
+            CharacterCreationTab.SelectedIndex++;
+        }
+
+        private void prev_click(object sender, RoutedEventArgs e) {
+            CharacterCreationTab.SelectedIndex--;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void btn_Lvl_start(object sender, RoutedEventArgs e) {
+            cvm = new CharacterViewModel();
+            CharacterCreationTab.SelectedIndex++;
+        }
+
+        private void btn_Lvl_startingLvl(object sender, RoutedEventArgs e) {
+            cvm = new CharacterViewModel();
+            cvm.AvailableLvlPoints = int.Parse(tb_Lvl_startingLvl.Text);
+            CharacterCreationTab.SelectedIndex++;
+        }
+
     }
 }

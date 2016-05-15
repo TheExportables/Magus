@@ -2,50 +2,62 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Magus.ViewModel {
-    class CharacterViewModel {
+    class CharacterViewModel : INotifyPropertyChanged{
 
-        Character c = new Character();
+        Character c;
+        int availableLvlPoints;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public CharacterViewModel() {
+            c = new Character();
+            availableLvlPoints = 4;
+        }
 
         public void addCharacterClass(AdventurerCharacterClass acc) {
-            c.CharClasses.Add(acc);
+            c.CharClasses.Add(new CharacterClassViewModel(acc));
             if (acc.School != null) {
                 c.MagicSchools.Add(acc.School);
                 foreach (var mastery in acc.School.SchoolMasteries) {
-                    c.MagicalMasteries.Add(mastery);
+                    c.MagicalMasteries.Add(new MagicMasteryViewModel(mastery));
                     foreach (var spell in mastery.Spells) {
                         c.Spells.Add(spell);
                     }
                 }
             }
-            lvlUpClass(c.CharClasses.IndexOf(acc));
+            lvlUpClass(c.CharClasses.IndexOf(c.CharClasses.Where(cc => cc.CharClass.Equals(acc)).FirstOrDefault()));
         }
 
         public void lvlUpClass(int index) {
             c.CharClasses.ElementAt(index).Lvl++;
-            if (c.CharClasses.ElementAt(index).Lvl / 3 == 0)
+            c.CharLvl++;
+            if (c.CharLvl / 3 == 0 && c.CharLvl!=3)
                 c.UnusedPp++;
-            if (c.CharClasses.ElementAt(index).Lvl / 4 == 0)
-                c.UnusedAttributePoints++;
+            if (c.CharLvl / 4 == 0)
+                c.UnusedBonusAttributePoints++;
             c.CharStats.Agility += c.CharClasses.ElementAt(index).getAgilityValue();
             c.CharStats.Vitality += c.CharClasses.ElementAt(index).getVitalityValue();
             c.CharStats.Wisdom += c.CharClasses.ElementAt(index).getWisdomValue();
             c.CharStats.AttackValue += c.CharClasses.ElementAt(index).getAttackValue();
-            c.UnusedSp += c.CharClasses.ElementAt(index).SpPerLvl + c.CharStats.Intellect.Modifier;
-            foreach (var item in c.CharClasses.ElementAt(index).FpPerLvl.generateValue()) {
+            c.UnusedSp += c.CharClasses.ElementAt(index).CharClass.SpPerLvl + c.CharStats.Intellect.Modifier;
+            foreach (var item in c.CharClasses.ElementAt(index).CharClass.FpPerLvl.generateValue()) {
                 c.CharStats.Fp.increaseFp(item);
             }
             if (c.CharClasses.ElementAt(index).GetType() == typeof(AdventurerCharacterClass)) {
-                AdventurerCharacterClass acc = c.CharClasses.ElementAt(index) as AdventurerCharacterClass;
+                AdventurerCharacterClass acc = c.CharClasses.ElementAt(index).CharClass as AdventurerCharacterClass;
                 if (acc.School != null) {
-                    c.ManaPoints.increaseMp(acc.School.ManaPerLvl);
-                    c.UnusedSpellPoints += 3;
+                    if (acc.School.ManaPerLvl != 0) {
+                        c.ManaPoints.increaseMp(acc.School.ManaPerLvl);
+                        c.UnusedSpellPoints += 3;
+                    }
                 }
-                foreach (var item in acc.PerksPerLvl.ElementAt(index)) {
+                foreach (var item in acc.PerksPerLvl.ElementAt(c.CharClasses.ElementAt(index).Lvl - 1)) {
                     // bound string could be a reference to a dependent resourceString in the future
                     if (item.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase))
                         c.UnusedPp++;
@@ -53,7 +65,6 @@ namespace Magus.ViewModel {
                         c.Perks.Add(item);
                 }
             }
-            c.CharLvl++;
             calculateSkillLvl();
         }
 
@@ -93,7 +104,7 @@ namespace Magus.ViewModel {
         public void increaseStrength() {
             c.CharStats.Strength.Value++;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Strength))
+                if (skill.Skill.Dependency.Equals(StatDependency.Strength))
                     skill.Modifier = c.CharStats.Strength.Modifier;
             }
         }
@@ -101,7 +112,7 @@ namespace Magus.ViewModel {
         public void increaseDextirity() {
             c.CharStats.Dextirity.Value++;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Dextirity))
+                if (skill.Skill.Dependency.Equals(StatDependency.Dextirity))
                     skill.Modifier = c.CharStats.Dextirity.Modifier;
             }
         }
@@ -109,15 +120,16 @@ namespace Magus.ViewModel {
         public void increaseEndurance() {
             c.CharStats.Endurance.Value++;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Endurance))
+                if (skill.Skill.Dependency.Equals(StatDependency.Endurance))
                     skill.Modifier = c.CharStats.Endurance.Modifier;
             }
         }
 
         public void increaseIntellect() {
             c.CharStats.Intellect.Value++;
+            c.PsiPoints.increasePsi(getPsiMultiplier());
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Intellect))
+                if (skill.Skill.Dependency.Equals(StatDependency.Intellect))
                     skill.Modifier = c.CharStats.Intellect.Modifier;
             }
         }
@@ -125,7 +137,7 @@ namespace Magus.ViewModel {
         public void increaseWillpower() {
             c.CharStats.Willpower.Value++;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Willpower))
+                if (skill.Skill.Dependency.Equals(StatDependency.Willpower))
                     skill.Modifier = c.CharStats.Willpower.Modifier;
             }
         }
@@ -133,7 +145,7 @@ namespace Magus.ViewModel {
         public void increaseCharism() {
             c.CharStats.Charism.Value++;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Charism))
+                if (skill.Skill.Dependency.Equals(StatDependency.Charism))
                     skill.Modifier = c.CharStats.Charism.Modifier;
             }
         }
@@ -141,7 +153,7 @@ namespace Magus.ViewModel {
         public void decreaseStrength() {
             c.CharStats.Strength.Value--;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Strength))
+                if (skill.Skill.Dependency.Equals(StatDependency.Strength))
                     skill.Modifier = c.CharStats.Strength.Modifier;
             }
         }
@@ -149,7 +161,7 @@ namespace Magus.ViewModel {
         public void decreaseDextirity() {
             c.CharStats.Dextirity.Value--;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Dextirity))
+                if (skill.Skill.Dependency.Equals(StatDependency.Dextirity))
                     skill.Modifier = c.CharStats.Dextirity.Modifier;
             }
         }
@@ -157,15 +169,16 @@ namespace Magus.ViewModel {
         public void decreaseEndurance() {
             c.CharStats.Endurance.Value--;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Endurance))
+                if (skill.Skill.Dependency.Equals(StatDependency.Endurance))
                     skill.Modifier = c.CharStats.Endurance.Modifier;
             }
         }
 
         public void decreaseIntellect() {
             c.CharStats.Intellect.Value--;
+            c.PsiPoints.decreasePsi(getPsiMultiplier());
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Intellect))
+                if (skill.Skill.Dependency.Equals(StatDependency.Intellect))
                     skill.Modifier = c.CharStats.Intellect.Modifier;
             }
         }
@@ -173,7 +186,7 @@ namespace Magus.ViewModel {
         public void decreaseWillpower() {
             c.CharStats.Willpower.Value--;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Willpower))
+                if (skill.Skill.Dependency.Equals(StatDependency.Willpower))
                     skill.Modifier = c.CharStats.Willpower.Modifier;
             }
         }
@@ -181,11 +194,25 @@ namespace Magus.ViewModel {
         public void decreaseCharism() {
             c.CharStats.Charism.Value--;
             foreach (var skill in c.Skills) {
-                if (skill.Dependency.Equals(StatDependency.Charism))
+                if (skill.Skill.Dependency.Equals(StatDependency.Charism))
                     skill.Modifier = c.CharStats.Charism.Modifier;
             }
         }
         #endregion
+
+        public int getPsiMultiplier() {
+            int multiplier = 0;
+            foreach (var charclass in c.CharClasses) {
+                if(charclass.GetType().Equals(typeof(AdventurerCharacterClass))){
+                    AdventurerCharacterClass acc = charclass.CharClass as AdventurerCharacterClass;
+                    if(acc.School != null){
+                        if(acc.School.PsiMultiplier > multiplier)
+                            multiplier = acc.School.PsiMultiplier;
+                    }
+                }
+            }
+            return multiplier;
+        }
 
         public void rename(String name) {
             c.Name = name;
@@ -255,10 +282,11 @@ namespace Magus.ViewModel {
         }
 
         public void learnSkill(Skill s) {
-            c.Skills.Add(s);
+            c.Skills.Add(new SkillViewModel(s));
         }
 
         public bool increaseSkillLvl(int index, int amount) {
+            // TODO PSI
             if (c.Skills.ElementAt(index).Lvl + amount <= c.MaxSkillLvl) {
                 c.Skills.ElementAt(index).Lvl += amount;
                 return true;
@@ -278,7 +306,7 @@ namespace Magus.ViewModel {
             if(c.Perks.Contains(perk))
                 return false;
             foreach (var skillReq in perk.SkillRequirements) {
-                int i = c.Skills.IndexOf(c.Skills.Where(s => s.Name.Equals(skillReq.RequiredSkill.Name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault());
+                int i = c.Skills.IndexOf(c.Skills.Where(s => s.Skill.Name.Equals(skillReq.RequiredSkill.Name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault());
                 if (i == -1) {
                     return false;
                 } else if (c.Skills.ElementAt(i).Value < skillReq.MinLvl) {
@@ -339,9 +367,7 @@ namespace Magus.ViewModel {
         public void sellWeapon(int index) {
             Cash cash = weaponSellValue(index);
             c.Weapons.RemoveAt(index);
-            c.CharCash.CopperAmount += cash.CopperAmount;
-            c.CharCash.SilverAmount += cash.SilverAmount;
-            c.CharCash.GoldAmount += cash.GoldAmount;
+            c.CharCash.CopperAmount += cash.convertToCopper();
         }
 
         public void equipShield() {
@@ -403,9 +429,10 @@ namespace Magus.ViewModel {
         public bool buyItem(Item item) {
             if (c.CharCash.convertToCopper() > item.Cost.convertToCopper()) {
                 c.Inventory.Add(item);
-                c.CharCash.GoldAmount = 0;
-                c.CharCash.SilverAmount = 0;
-                c.CharCash.CopperAmount = c.CharCash.convertToCopper() - item.Cost.convertToCopper();
+                Cash temp = new Cash();
+                temp.CopperAmount = c.CharCash.convertToCopper();
+                c.CharCash = new Cash();
+                c.CharCash.CopperAmount = temp.convertToCopper() - item.Cost.convertToCopper();
                 return true;
             } else
                 return false;              
@@ -418,9 +445,7 @@ namespace Magus.ViewModel {
         public void sellItem(int index) {
             Cash cash = itemSellValue(index);
             c.Inventory.RemoveAt(index);
-            c.CharCash.CopperAmount += cash.CopperAmount;
-            c.CharCash.SilverAmount += cash.SilverAmount;
-            c.CharCash.GoldAmount += cash.GoldAmount;
+            c.CharCash.CopperAmount += cash.convertToCopper();
         }
 
         public bool spellHadEffect(Spell spell) {
@@ -467,12 +492,16 @@ namespace Magus.ViewModel {
 
         public int calculatePriestSpellCost(PriestSpell spell) {
             int actualCost = spell.Faith;
-            foreach (var mastery in spell.Supports) {
-                if (c.MagicalMasteries.Contains(mastery))
+            foreach (var sphere in spell.GreaterSupporters) {
+                if (c.GreaterSpheres.Contains(sphere))
                     actualCost -= 5;
             }
-            foreach (var mastery in spell.Oppositional) {
-                if (c.MagicalMasteries.Contains(mastery))
+            foreach (var sphere in spell.SmallerSupporters) {
+                if (c.SmallerSpheres.Contains(sphere))
+                    actualCost -= 10;
+            }
+            foreach (var sphere in spell.Oppositional) {
+                if (c.GreaterSpheres.Contains(sphere))
                     actualCost += 5;
             }
             return actualCost;
@@ -541,17 +570,17 @@ namespace Magus.ViewModel {
 
         public int getSpellsMaxStrength(Spell spell) {
             foreach (var masteries in c.MagicalMasteries) {
-                if (masteries.Spells.Contains(spell))
+                if (masteries.mastery.Spells.Contains(spell))
                     return masteries.Lvl;
             }
             return 0;
         }
 
         public CharacterClass getCharacterClass(int index) {
-            return c.CharClasses.ElementAt(index);
+            return c.CharClasses.ElementAt(index).CharClass;
         }
 
-        public ObservableCollection<CharacterClass> getCharacterClasses() {
+        public ObservableCollection<CharacterClassViewModel> getCharacterClasses() {
             return c.CharClasses;
         }
 
@@ -608,7 +637,7 @@ namespace Magus.ViewModel {
             return c.Reputations;
         }
 
-        public ObservableCollection<Skill> getSkills() {
+        public ObservableCollection<SkillViewModel> getSkills() {
             return c.Skills;
         }
 
@@ -679,18 +708,40 @@ namespace Magus.ViewModel {
             return c.UnusedSpellPoints;
         }
 
-        public Boolean getIfUsedJoker() {
-            return c.UsedJoker;
+        public int getUnusedBonusPoints() {
+            return c.UnusedBonusAttributePoints;
         }
 
-        public ObservableCollection<MagicMastery> getMagicalMasteries() {
+        public ObservableCollection<MagicMasteryViewModel> getMagicalMasteries() {
             return c.MagicalMasteries;
         }
 
         public ObservableCollection<MagicSchool> getMagicSchools() {
             return c.MagicSchools;
         }
+
+        public int AvailableLvlPoints {
+            get { return availableLvlPoints; }
+            set { 
+                availableLvlPoints = value;
+                OnPropertyChanged("AvailableLvlPoints");
+            }
+        }
+
+        public Character GetCharacter {
+            get { return c; }
+            set {
+                this.c = value;
+                OnPropertyChanged("GetCharacter");
+            }
+        }
         #endregion
 
+        protected void OnPropertyChanged(string name) {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
     }
 }

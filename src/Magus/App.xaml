@@ -1,6 +1,7 @@
 ﻿<Application x:Class="Magus.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Magus.Controls"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Color x:Key="BorderColor_Base">#000</Color>
@@ -57,8 +58,8 @@
                 <GradientStop Color="{StaticResource BackgroundColor_Base}" Offset="1.0"/>
             </LinearGradientBrush.GradientStops>
         </LinearGradientBrush>
-        
-        <LinearGradientBrush x:Key="Item_BackgroundBrush_Unselected" StartPoint="0,0" EndPoint="0,1">
+
+        <LinearGradientBrush x:Name="Item_BackgroundBrush_Unselected" x:Key="Item_BackgroundBrush_Unselected" StartPoint="0,0" EndPoint="0,1">
             <LinearGradientBrush.GradientStops>
                 <GradientStop Color="#FFE8FFF5" Offset="0.0"/>
                 <GradientStop Color="#FFDFF6E4" Offset="0.3"/>
@@ -78,6 +79,7 @@
         <SolidColorBrush x:Key="Item_TextBrush_Disabled" Color="#888" />
         <SolidColorBrush x:Key="Item_TextBrush_Hover" Color="Black" />
         <SolidColorBrush x:Key="Item_TextBrush_Selected" Color="#FF145F39" />
+        <SolidColorBrush x:Key="TextBrush_ForBlack" Color="#FF008506"/>
 
         <LinearGradientBrush x:Key="Item_DisabledBorderBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#CCC" Offset="0"/>
@@ -110,6 +112,12 @@
         <Thickness x:Key="SideItemMargin_Hover_Final">4,0,0,0</Thickness>
         <Thickness x:Key="SideItemPanel_Padding">0,4,0,0</Thickness>
 
+        <Thickness x:Key="Button_Base">4,4,4,4</Thickness>
+        <Thickness x:Key="Button_Hover">8,8,8,8</Thickness>
+        
+        <Thickness x:Key="Padding_Form_Inner">10,10,10,10</Thickness>
+        <Thickness x:Key="Padding_Form_Outer">20,20,20,20</Thickness>
+        
         <!-- This will run when a TabItem enters the "Unselected" state -->
         <Storyboard x:Key="ItemStoryBoard_Unselected">
             <ThicknessAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="Margin" To="{StaticResource ItemMargin_Base}" FillBehavior="HoldEnd" Duration="0:0:0.1"/>
@@ -150,6 +158,18 @@
             <DoubleAnimation Storyboard.TargetProperty="Content.Opacity" From="1.0" To="0.0" FillBehavior="HoldEnd" Duration="0:0:0.5"/>
         </Storyboard>
 
+        <Storyboard x:Key="ButtonStoryBoard_Unselected">
+            <local:BrushAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="Background" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_HoverBackgroundBrush}" To="{StaticResource Item_BackgroundBrush_Unselected}"/>
+            <local:BrushAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="BorderBrush" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_HoverBorderBrush}" To="{StaticResource Item_Border_Unselected}"/>
+            <local:BrushAnimation Storyboard.TargetProperty="Foreground" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_TextBrush_Hover}" To="{StaticResource Item_TextBrush_Unselected}"/>
+        </Storyboard>
+        <Storyboard x:Key="ButtonStoryBoard_Hover">
+            <local:BrushAnimation Storyboard.TargetProperty="Foreground" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_TextBrush_Unselected}" To="{StaticResource Item_TextBrush_Hover}"/>
+            <local:BrushAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="BorderBrush" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_Border_Unselected}" To="{StaticResource Item_HoverBorderBrush}"/>
+            <ThicknessAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="BorderThickness" Duration="0:0:0.2" FillBehavior="HoldEnd" To="2,2,2,2"/>
+            <local:BrushAnimation Storyboard.TargetName="Border" Storyboard.TargetProperty="Background" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_BackgroundBrush_Unselected}" To="{StaticResource Item_HoverBackgroundBrush}"/>
+        </Storyboard>
+        
         <!-- The Main TabControl Style. -->
         <Style TargetType="{x:Type TabControl}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -405,20 +425,17 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Name="Border" Background="{StaticResource Item_BackgroundBrush_Unselected}" BorderBrush="{StaticResource Item_BorderBrush_Selected}" Margin="{StaticResource ItemMargin_Base}" BorderThickness="2,2,2,2" CornerRadius="3,3,3,3">
+                        <Border Name="Border" Background="{StaticResource Item_BackgroundBrush_Unselected}" BorderBrush="{StaticResource Item_BorderBrush_Selected}" Margin="{StaticResource ItemMargin_Base}" BorderThickness="2,2,2,2" CornerRadius="3,3,3,3" Padding="3,3,3,3">
                             <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Content" Margin="7,2,7,2" RecognizesAccessKey="True"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="Border.IsMouseOver" Value="False">
                                 <Trigger.EnterActions>
-                                    <BeginStoryboard x:Name="sbUnselected" Storyboard="{StaticResource ItemStoryBoard_Unselected}"/>
+                                    <BeginStoryboard x:Name="sbUnselected" Storyboard="{StaticResource ButtonStoryBoard_Unselected}"/>
                                 </Trigger.EnterActions>
                                 <Trigger.ExitActions>
                                     <StopStoryboard BeginStoryboardName="sbUnselected"/>
                                 </Trigger.ExitActions>
-                                <Setter TargetName="Border" Property="Background" Value="{StaticResource Item_BackgroundBrush_Unselected}" />
-                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Item_Border_Unselected}" />
-                                <Setter Property="Foreground" Value="{StaticResource Item_TextBrush_Unselected}" />
                             </Trigger>
 
                             <Trigger Property="IsEnabled" Value="False">
@@ -428,10 +445,12 @@
                             </Trigger>
 
                             <Trigger Property="Border.IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="{StaticResource Item_TextBrush_Hover}" />
-                                <Setter Property="BorderBrush" TargetName="Border" Value="{StaticResource Item_HoverBorderBrush}" />
-                                <Setter TargetName="Border" Property="BorderThickness" Value="2,2,2,2" />
-                                <Setter Property="Background" TargetName="Border" Value="{StaticResource Item_HoverBackgroundBrush}"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard x:Name="sbHover" Storyboard="{StaticResource ButtonStoryBoard_Hover}"/>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="sbHover"/>
+                                </Trigger.ExitActions>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

@@ -1,5 +1,4 @@
-﻿using Magus.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,26 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Magus
-{
+namespace Magus.Tabs.STabs2.STabs21 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SumView.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-
-        DataLoader loader;
-
-        public MainWindow()
-        {
+    public partial class SumView : UserControl {
+        public SumView() {
             InitializeComponent();
-            //Initialize with wanted datasource
-            loader = new TestDataLoader();
         }
-
-        private void MenuItem_Exit(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
-        }
-
     }
 }

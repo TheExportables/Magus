@@ -2,10 +2,162 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:Magus.Tabs.STabs2.STabs21"
+             mc:Ignorable="d">
+
+    <TabControl Name="CharacterCreationTab">
+        <TabItem Header="Szint" Name="Level">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0"  BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushDark}" CornerRadius="3" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border.Background>
+                            <SolidColorBrush Color="Black" Opacity="0.95"/>
+                        </Border.Background>
+                        <Border BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushBright}" CornerRadius="2" Margin="0" Padding="{StaticResource Padding_Form_Outer}">
+                            <StackPanel>
+                                <Label Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Kezdő 4. szintű karakter</Label>
+                                <Button Click="btn_Lvl_start">Indítás</Button>
+                            </StackPanel>
+                        </Border>
+                    </Border>
+                    <Border Grid.Column="1" BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushDark}" CornerRadius="3" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border.Background>
+                            <SolidColorBrush Color="Black" Opacity="0.95"/>
+                        </Border.Background>
+                        <Border BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushBright}" CornerRadius="2" Margin="0" Padding="{StaticResource Padding_Form_Outer}">
+                            <StackPanel>
+                                <Label Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Saját kezdőszint megadása</Label>
+                                <TextBox Name="tb_Lvl_startingLvl" Margin="{StaticResource Button_Hover}" PreviewTextInput="NumberValidationTextBox">4</TextBox>
+                                <Button Click="btn_Lvl_startingLvl">Indítás</Button>
+                            </StackPanel>
+                        </Border>
+                    </Border>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Faj és nem" Name="Race">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:RaceView Grid.Row="0"></views:RaceView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Jellem" Name="Characteristic">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:CharacteristicView Grid.Row="0"></views:CharacteristicView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Vallás" Name="Religion">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:ReligionView Grid.Row="0"></views:ReligionView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Kasztok" Name="Classes">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:ClassView Grid.Row="0"></views:ClassView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Tulajdonságok" Name="Stats">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:StatsView Grid.Row="0"></views:StatsView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Képzettségek" Name="Skills">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:SkillView Grid.Row="0"></views:SkillView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Képességek" Name="Perks">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:PerkView Grid.Row="0"></views:PerkView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Felszerelés" Name="Inventory">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:InventoryView Grid.Row="0"></views:InventoryView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Név és kor" Name="CharName">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <views:SumView Grid.Row="0"></views:SumView>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

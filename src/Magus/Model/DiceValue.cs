@@ -11,6 +11,8 @@ namespace Magus.Model {
         Dice diceType;
 
         public DiceValue() {
+            this.multiplier = 1;
+            this.diceType = Dice.d20;
         }
 
         public DiceValue(int multiplier, Dice dice) {
@@ -41,6 +43,9 @@ namespace Magus.Model {
             Random r = new Random();
             int range;
             switch(diceType){
+                case Dice.d3:
+                    range = 3;
+                    break;
                 case Dice.d4:
                     range = 4;
                     break;
@@ -51,6 +56,9 @@ namespace Magus.Model {
                     range = 8;
                     break;
                 case Dice.d10:
+                    range = 10;
+                    break;
+                case Dice.d12:
                     range = 10;
                     break;
                 case Dice.d20:

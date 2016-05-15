@@ -12,6 +12,23 @@
     </Window.Background>
 
     <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top" IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem Header="Ú_j"/>
+                <Separator/>
+                <MenuItem Header="_Betöltés"/>
+                <Separator/>
+                <MenuItem Header="_Mentése"/>
+                <MenuItem Header="Me_ntés másként"/>
+                <Separator/>
+                <MenuItem Header="_Kilépés" Click="MenuItem_Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Edit"></MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Leírások külön ablakban" IsCheckable="True"/>
+            </MenuItem>
+        </Menu>
+        
         <TabControl x:Name="tc" Margin="5" SelectedIndex="0">
             <TabItem Header="Kaland">
                 <tabs:MTab1/>

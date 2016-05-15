@@ -58,6 +58,7 @@
     <Compile Include="Controls\AudioPlayer.xaml.cs">
       <DependentUpon>AudioPlayer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BrushAnimation.cs" />
     <Compile Include="Controls\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>
     </Compile>
@@ -68,48 +69,57 @@
     <Compile Include="Controls\TextDialog.xaml.cs">
       <DependentUpon>TextDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\AdventurerCharacterClass.cs" />
-    <Compile Include="Model\Armor.cs" />
-    <Compile Include="Model\Cash.cs" />
-    <Compile Include="Model\Character.cs" />
-    <Compile Include="Model\CharacterClass.cs" />
-    <Compile Include="Model\Characteristic.cs" />
-    <Compile Include="Model\CharacterSize.cs" />
+    <Compile Include="Data\DataLoader.cs" />
+    <Compile Include="Data\DataManager.cs" />
+    <Compile Include="Data\TestDataLoader.cs" />
+    <Compile Include="Model\Abilities\PerkCategory.cs" />
+    <Compile Include="Model\Character\AdventurerCharacterClass.cs" />
+    <Compile Include="Model\Items\Armor.cs" />
+    <Compile Include="Model\Items\Cash.cs" />
+    <Compile Include="Model\Character\Character.cs" />
+    <Compile Include="Model\Character\CharacterClass.cs" />
+    <Compile Include="Model\Character\Characteristic.cs" />
+    <Compile Include="Model\Character\CharacterSize.cs" />
     <Compile Include="Model\Dice.cs" />
     <Compile Include="Model\DiceValue.cs" />
-    <Compile Include="Model\Fp.cs" />
-    <Compile Include="Model\Hp.cs" />
-    <Compile Include="Model\Item.cs" />
-    <Compile Include="Model\MagicMastery.cs" />
-    <Compile Include="Model\MagicSchool.cs" />
-    <Compile Include="Model\MagicSpell.cs" />
-    <Compile Include="Model\Mana.cs" />
+    <Compile Include="Model\Character\Fp.cs" />
+    <Compile Include="Model\Character\Hp.cs" />
+    <Compile Include="Model\Items\Item.cs" />
+    <Compile Include="Model\Items\Material.cs" />
+    <Compile Include="Model\Magic\GiftOfGods.cs" />
+    <Compile Include="Model\Magic\GreaterSphere.cs" />
+    <Compile Include="Model\Magic\MagicMastery.cs" />
+    <Compile Include="Model\Magic\MagicSchool.cs" />
+    <Compile Include="Model\Magic\MagicSpell.cs" />
+    <Compile Include="Model\Character\Mana.cs" />
+    <Compile Include="Model\Magic\PriestDeity.cs" />
+    <Compile Include="Model\Magic\SmallerSphere.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Messages.cs" />
-    <Compile Include="Model\Perk.cs" />
+    <Compile Include="Model\Abilities\Perk.cs" />
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\Pictures.cs" />
-    <Compile Include="Model\PriestSpell.cs" />
-    <Compile Include="Model\Psi.cs" />
-    <Compile Include="Model\Race.cs" />
-    <Compile Include="Model\Range.cs" />
-    <Compile Include="Model\Reputation.cs" />
-    <Compile Include="Model\Resistance.cs" />
-    <Compile Include="Model\ResistanceType.cs" />
-    <Compile Include="Model\Shield.cs" />
-    <Compile Include="Model\Skill.cs" />
-    <Compile Include="Model\SkillRequirement.cs" />
+    <Compile Include="Model\Magic\PriestSpell.cs" />
+    <Compile Include="Model\Character\Psi.cs" />
+    <Compile Include="Model\Character\Race.cs" />
+    <Compile Include="Model\Items\Range.cs" />
+    <Compile Include="Model\Character\Reputation.cs" />
+    <Compile Include="Model\Character\Resistance.cs" />
+    <Compile Include="Model\Character\ResistanceType.cs" />
+    <Compile Include="Model\Items\Shield.cs" />
+    <Compile Include="Model\Abilities\Skill.cs" />
+    <Compile Include="Model\Abilities\SkillRequirement.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="Model\Songs.cs" />
-    <Compile Include="Model\Spell.cs" />
-    <Compile Include="Model\Stat.cs" />
-    <Compile Include="Model\StatDependency.cs" />
-    <Compile Include="Model\StatRequirement.cs" />
-    <Compile Include="Model\Stats.cs" />
-    <Compile Include="Model\Weapon.cs" />
-    <Compile Include="Model\WeaponCategory.cs" />
-    <Compile Include="Model\WeaponHandlingAttribute.cs" />
-    <Compile Include="Model\WeaponSize.cs" />
+    <Compile Include="Model\Magic\Spell.cs" />
+    <Compile Include="Model\Character\Stat.cs" />
+    <Compile Include="Model\Abilities\StatDependency.cs" />
+    <Compile Include="Model\Abilities\StatRequirement.cs" />
+    <Compile Include="Model\Character\Stats.cs" />
+    <Compile Include="Model\Items\Weapon.cs" />
+    <Compile Include="Model\Items\WeaponCategory.cs" />
+    <Compile Include="Model\Items\WeaponHandlingAttribute.cs" />
+    <Compile Include="Model\Items\WeaponSize.cs" />
     <Compile Include="Tabs\MTabs\MTab1.xaml.cs">
       <DependentUpon>MTab1.xaml</DependentUpon>
     </Compile>
@@ -155,6 +165,33 @@
     <Compile Include="Tabs\STabs2\STab25.xaml.cs">
       <DependentUpon>STab25.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\CharacteristicView.xaml.cs">
+      <DependentUpon>CharacteristicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\ClassView.xaml.cs">
+      <DependentUpon>ClassView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\InventoryView.xaml.cs">
+      <DependentUpon>InventoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\PerkView.xaml.cs">
+      <DependentUpon>PerkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\RaceView.xaml.cs">
+      <DependentUpon>RaceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\ReligionView.xaml.cs">
+      <DependentUpon>ReligionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\SkillView.xaml.cs">
+      <DependentUpon>SkillView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\StatsView.xaml.cs">
+      <DependentUpon>StatsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\STabs2\STabs21\SumView.xaml.cs">
+      <DependentUpon>SumView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tabs\STabs3\STab31.xaml.cs">
       <DependentUpon>STab31.xaml</DependentUpon>
     </Compile>
@@ -194,7 +231,11 @@
     <Compile Include="Tabs\STabs4\STab48.xaml.cs">
       <DependentUpon>STab48.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\CharacterClassViewModel.cs" />
     <Compile Include="ViewModel\CharacterViewModel.cs" />
+    <Compile Include="ViewModel\ItemViewModel.cs" />
+    <Compile Include="ViewModel\MagicMasteryViewModel.cs" />
+    <Compile Include="ViewModel\SkillViewModel.cs" />
     <Page Include="Controls\AudioPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -280,6 +321,42 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tabs\STabs2\STab25.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\CharacteristicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\ClassView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\InventoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\PerkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\RaceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\ReligionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\SkillView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\StatsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\STabs2\STabs21\SumView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -403,9 +480,7 @@
   <ItemGroup>
     <Resource Include="Resources\Images\dustbin-icon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Images\pause-icon.png" />
     <Resource Include="Resources\Images\stop-icon.png" />

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Magus.Model {
     public enum Dice {
+        d3,
         d4,
         d6,
         d8,
