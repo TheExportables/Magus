@@ -1,4 +1,5 @@
-﻿using Magus.Model;
+﻿using Magus.Data;
+using Magus.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,12 +13,21 @@ namespace Magus.ViewModel {
 
         Character c;
         int availableLvlPoints;
+        int index;
+        ObservableCollection<CharacterClass> availableClassesForRace;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CharacterViewModel() {
             c = new Character();
             availableLvlPoints = 4;
+            index = 0;
+            availableClassesForRace = new ObservableCollection<CharacterClass>();
+        }
+
+        public void addCharacterClass(CharacterClass cc) {
+            c.CharClasses.Add(new CharacterClassViewModel(cc));
+            lvlUpClass(c.CharClasses.IndexOf(c.CharClasses.Where(charClass => charClass.CharClass.Equals(cc)).FirstOrDefault()));
         }
 
         public void addCharacterClass(AdventurerCharacterClass acc) {
@@ -32,6 +42,10 @@ namespace Magus.ViewModel {
                 }
             }
             lvlUpClass(c.CharClasses.IndexOf(c.CharClasses.Where(cc => cc.CharClass.Equals(acc)).FirstOrDefault()));
+        }
+
+        public bool alreadyHasClass(CharacterClass charClass) {
+            return c.CharClasses.Contains(c.CharClasses.Where(cc => cc.CharClass.Equals(charClass)).FirstOrDefault());
         }
 
         public void lvlUpClass(int index) {
@@ -57,7 +71,7 @@ namespace Magus.ViewModel {
                         c.UnusedSpellPoints += 3;
                     }
                 }
-                foreach (var item in acc.PerksPerLvl.ElementAt(c.CharClasses.ElementAt(index).Lvl - 1)) {
+                foreach (var item in acc.ValuesPerLvl.ElementAt(c.CharClasses.ElementAt(index).Lvl - 1).Perks) {
                     // bound string could be a reference to a dependent resourceString in the future
                     if (item.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase))
                         c.UnusedPp++;
@@ -68,19 +82,16 @@ namespace Magus.ViewModel {
             calculateSkillLvl();
         }
 
-
         //check the race, and list classes available for that race
-        public List<AdventurerCharacterClass> availableClassesForRace() {
-            List<AdventurerCharacterClass> list = new List<AdventurerCharacterClass>();
-            /*
-             * iterate through all the classes in the data, and check if available for race
-             * foreach (var charClass in <ClassesData>) {
-             *     if(charClass.availableForRaces.Contains(charRace.Name)){
-             *          list.Add(charClass)
-             *     }
-             * }
-             */
-            return list;
+        public void getAvailableClassesForRace() {
+            availableClassesForRace = new ObservableCollection<CharacterClass>();
+            foreach (var charClass in DataManager.Classes) {
+                if (charClass is AdventurerCharacterClass) {
+                    if ((charClass as AdventurerCharacterClass).AvailableForRaces.Contains(c.CharRace.Name)) {
+                        availableClassesForRace.Add(charClass);
+                    }
+                }
+            }
         }
 
         public void setRace(Race race) {
@@ -242,27 +253,36 @@ namespace Magus.ViewModel {
             c.C1 = characteristic;
         }
 
+        public List<Characteristic> getCharacteristics() {
+            List<Characteristic> list = new List<Characteristic>();
+            list.Add(Characteristic.Káosz);
+            list.Add(Characteristic.Halál);
+            list.Add(Characteristic.Élet);
+            list.Add(Characteristic.Rend);
+            return list;
+        }
+
         public List<Characteristic> availableCharacteristicFor2() {
             List<Characteristic> list = new List<Characteristic>();
             switch (c.C1) { 
-                case Characteristic.Chaos:
-                    list.Add(Characteristic.Death);
-                    list.Add(Characteristic.Life);
+                case Characteristic.Káosz:
+                    list.Add(Characteristic.Halál);
+                    list.Add(Characteristic.Élet);
                     break;
-                case Characteristic.Death:
-                    list.Add(Characteristic.Chaos);
-                    list.Add(Characteristic.Order);
+                case Characteristic.Halál:
+                    list.Add(Characteristic.Káosz);
+                    list.Add(Characteristic.Rend);
                     break;
-                case Characteristic.Life:
-                    list.Add(Characteristic.Chaos);
-                    list.Add(Characteristic.Order);
+                case Characteristic.Élet:
+                    list.Add(Characteristic.Káosz);
+                    list.Add(Characteristic.Rend);
                     break;
-                case Characteristic.Order:
-                    list.Add(Characteristic.Life);
-                    list.Add(Characteristic.Death);
+                case Characteristic.Rend:
+                    list.Add(Characteristic.Élet);
+                    list.Add(Characteristic.Halál);
                     break;
             }
-            list.Add(Characteristic.None);
+            list.Add(Characteristic.Üres);
             return list;
         }
 
@@ -322,14 +342,11 @@ namespace Magus.ViewModel {
 
         public List<Perk> getAvailablePerks() {
             List<Perk> list = new List<Perk>();
-            /*
-             * iterate through all the perks in the data, and check if available for this character
-             * foreach (var perk in <PerksData>) {
-             *     if(canLearnPerk(perk)){
-             *          list.Add(perk);
-             *     }
-             * }
-             */
+            foreach (var perk in DataManager.Perks) {
+                if(canLearnPerk(perk)){
+                    list.Add(perk);
+                }
+            }
             return list;
         }
 
@@ -734,6 +751,26 @@ namespace Magus.ViewModel {
                 this.c = value;
                 OnPropertyChanged("GetCharacter");
             }
+        }
+
+        public int Index {
+            get { return index; }
+            set {
+                this.index = value;
+                OnPropertyChanged("Index");
+            }
+        }
+
+        public DataManager Manager {
+            get { return DataManager.Instance; }
+        }
+
+        public ObservableCollection<CharacterClass> AvailableClassesForRace {
+            get { return availableClassesForRace; }
+        }
+
+        public List<Characteristic> Characteristics {
+            get { return getCharacteristics(); }
         }
         #endregion
 

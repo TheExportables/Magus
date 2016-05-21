@@ -10,6 +10,9 @@ namespace Magus.Model {
         Endurance,
         Intellect,
         Willpower,
-        Charism
+        Charism,
+        Vitality,
+        Agility,
+        Wisdom
     }
 }

@@ -28,15 +28,15 @@ namespace Magus.Tabs.STabs2
         {
             InitializeComponent();
             cvm = new CharacterViewModel();
-            this.DataContext = cvm.GetCharacter;
+            this.DataContext = cvm;
         }
 
         private void next_click(object sender, RoutedEventArgs e) {
-            CharacterCreationTab.SelectedIndex++;
+            cvm.Index++;
         }
 
         private void prev_click(object sender, RoutedEventArgs e) {
-            CharacterCreationTab.SelectedIndex--;
+            cvm.Index--;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
@@ -46,13 +46,15 @@ namespace Magus.Tabs.STabs2
 
         private void btn_Lvl_start(object sender, RoutedEventArgs e) {
             cvm = new CharacterViewModel();
-            CharacterCreationTab.SelectedIndex++;
+            this.DataContext = cvm;
+            cvm.Index++;
         }
 
         private void btn_Lvl_startingLvl(object sender, RoutedEventArgs e) {
             cvm = new CharacterViewModel();
+            this.DataContext = cvm;
             cvm.AvailableLvlPoints = int.Parse(tb_Lvl_startingLvl.Text);
-            CharacterCreationTab.SelectedIndex++;
+            cvm.Index++;
         }
 
     }

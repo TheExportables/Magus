@@ -12,6 +12,7 @@ namespace Magus.Data {
     class DataManager {
 
         static ObservableCollection<Race> races;
+        static ObservableCollection<CharacterClass> baseClasses;
         static ObservableCollection<CharacterClass> classes;
         static ObservableCollection<Perk> perks;
         static ObservableCollection<Skill> skills;
@@ -22,11 +23,13 @@ namespace Magus.Data {
         static ObservableCollection<Material> materials;
         static ObservableCollection<PriestDeity> deities;
         static ObservableCollection<MagicSchool> magicSchools;
+        static ObservableCollection<Character> characters;
 
         private static DataManager instance = null;
 
         private DataManager() {
             races = new ObservableCollection<Race>();
+            baseClasses = new ObservableCollection<CharacterClass>();
             classes = new ObservableCollection<CharacterClass>();
             perks = new ObservableCollection<Perk>();
             skills = new ObservableCollection<Skill>();
@@ -37,6 +40,7 @@ namespace Magus.Data {
             materials = new ObservableCollection<Material>();
             deities = new ObservableCollection<PriestDeity>();
             magicSchools = new ObservableCollection<MagicSchool>();
+            characters = new ObservableCollection<Character>();
         }
 
         public static DataManager Instance {
@@ -51,6 +55,11 @@ namespace Magus.Data {
         public static ObservableCollection<Race> Races {
             get { return races; }
             set { races = value; }
+        }
+
+        public static ObservableCollection<CharacterClass> BaseClasses {
+            get { return baseClasses; }
+            set { baseClasses = value; }
         }
 
         public static ObservableCollection<CharacterClass> Classes {
@@ -101,6 +110,11 @@ namespace Magus.Data {
         public static ObservableCollection<MagicSchool> MagicShools {
             get { return magicSchools; }
             set { magicSchools = value; }
+        }
+
+        public static ObservableCollection<Character> Characters {
+            get { return characters; }
+            set { characters = value; }
         }
     }
 }

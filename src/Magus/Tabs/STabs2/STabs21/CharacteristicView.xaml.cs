@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Magus.Model;
+using Magus.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,16 @@ namespace Magus.Tabs.STabs2.STabs21 {
     public partial class CharacteristicView : UserControl {
         public CharacteristicView() {
             InitializeComponent();
+        }
+
+        private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
+            cb_Characteristic_2.ItemsSource = ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext).availableCharacteristicFor2();
+            cb_Characteristic_2.SelectedItem = Characteristic.Üres;
+            btn_Characteristic_next.IsEnabled = true;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e) {
+            ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext).Index++;
         }
     }
 }

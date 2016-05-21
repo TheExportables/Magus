@@ -3,9 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Grid>
-            
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0.95"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" LastChildFill="False">
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Alapkasztok:</TextBlock>
+            <ComboBox Name="cb_Class_base" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding Path=Manager.BaseClasses}" DisplayMemberPath="Name" Margin="5,10,5,10" SelectionChanged="cb_Class_base_SelectionChanged_1"></ComboBox>
+            <Button x:Name="btn_Class_addBaseClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_1"/>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" >Kalandozó kasztok, melyek elérhetők a választott faj számára: </TextBlock>
+            <ComboBox Name="cb_Class_adventurer" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding}" DisplayMemberPath="Name" Margin="5,10,5,10" DropDownOpened="cb_Class_adventurer_DropDownOpened_1" SelectionChanged="cb_Class_adventurer_SelectionChanged_1"></ComboBox>
+            <Button x:Name="btn_Class_addAdventurerClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_2"/>
+        </DockPanel>
+        <DockPanel Grid.Row="1" LastChildFill="True">
+            <TabControl x:Name="tab_Class_pickedClasses" Margin="5" Style="{StaticResource SideTabControlStyle}" ItemContainerStyle="{StaticResource SideTabItemStyle}" ItemsSource="{Binding}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=CharClass.Name}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <DataGrid ItemsSource="{Binding Path=CharClass.ValuesPerLvl}" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="TÉ" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=AttackValue}"/>
+                                <DataGridTextColumn Header="Szívósság" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=VitalityValue}"/>
+                                <DataGridTextColumn Header="Gyorsaság" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=AgilityValue}"/>
+                                <DataGridTextColumn Header="Tudat" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=WisdomValue}"/>
+                                <DataGridTextColumn Header="Képesség" Width="SizeToCells" IsReadOnly="True" Binding="{Binding Path=Perks}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </DockPanel>
     </Grid>
 </UserControl>

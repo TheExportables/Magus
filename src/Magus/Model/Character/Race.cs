@@ -8,6 +8,7 @@ namespace Magus.Model {
     class Race {
 
         String name;
+        String description;
         int strengthModifier;
         int dextirityModifier;
         int enduranceModifier;
@@ -17,6 +18,7 @@ namespace Magus.Model {
 
         public Race() {
             name = "";
+            description = "";
             strengthModifier = 0;
             dextirityModifier = 0;
             enduranceModifier = 0;
@@ -25,8 +27,9 @@ namespace Magus.Model {
             charismModifier = 0;
         }
 
-        public Race(String name, int strMod, int dexMod, int endMod, int intMod, int willMod, int charMod) {
+        public Race(String name, String description, int strMod, int dexMod, int endMod, int intMod, int willMod, int charMod) {
             this.name = name;
+            this.description = description;
             this.strengthModifier = strMod;
             this.dextirityModifier = dexMod;
             this.enduranceModifier = endMod;
@@ -38,6 +41,11 @@ namespace Magus.Model {
         public String Name {
             get { return name; }
             set { name = value; }
+        }
+
+        public String Description {
+            get { return description; }
+            set { description = value; }
         }
 
         public int StrengthModifier {

@@ -8,7 +8,6 @@ namespace Magus.Model {
     class AdventurerCharacterClass : CharacterClass {
 
         MagicSchool school;
-        List<List<Perk>> perksPerLvl;
         List<String> availableForRaces;
         int attackValueRequirement;
         List<StatRequirement> statRequirements;
@@ -18,7 +17,6 @@ namespace Magus.Model {
 
         public AdventurerCharacterClass() : base() {
             school = null;
-            perksPerLvl = new List<List<Perk>>();
             availableForRaces = new List<string>();
             attackValueRequirement = 0;
             statRequirements = new List<StatRequirement>();
@@ -30,10 +28,6 @@ namespace Magus.Model {
         public MagicSchool School {
             get { return school; }
             set { this.school = value; }
-        }
-        public List<List<Perk>> PerksPerLvl {
-            get { return perksPerLvl; }
-            set { this.perksPerLvl = value; }
         }
         public List<String> AvailableForRaces {
             get { return availableForRaces; }

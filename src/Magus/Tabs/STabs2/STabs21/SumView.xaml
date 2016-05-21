@@ -3,9 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Grid>
-            
+        <Border Name="border_Race_Main" Grid.Column="0"  BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushDark}" CornerRadius="3" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border.RenderTransform>
+                <ScaleTransform ScaleY="1"/>
+            </Border.RenderTransform>
+            <Border.Background>
+                <SolidColorBrush Color="Black" Opacity="0.95"/>
+            </Border.Background>
+            <Border BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushBright}" CornerRadius="2" Margin="0" Padding="{StaticResource Padding_Form_Outer}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <TextBlock FontWeight="Bold" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" HorizontalAlignment="Center">Végső lépések</TextBlock>
+                        <Label Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Add meg a karakter nevét:</Label>
+                        <TextBox Name="tb_Sum_name" Margin="{StaticResource Button_Hover}" Text="{Binding Path=GetCharacter.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="tb_Sum_name_TextChanged_1"></TextBox>
+                        <Label Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Add meg a karakter korát:</Label>
+                        <TextBox Name="tb_Sum_age" Margin="{StaticResource Button_Hover}" Text="{Binding Path=GetCharacter.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox"></TextBox>
+                        <Button Name="btn_Sum_end" Click="btn_Sum_end_Click_1" IsEnabled="False">Befejezés</Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>

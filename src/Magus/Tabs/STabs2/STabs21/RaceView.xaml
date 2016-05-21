@@ -3,9 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Grid>
-        
+        <Border Name="border_Race_Main" Grid.Column="0"  BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushDark}" CornerRadius="3" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border.RenderTransform>
+                <ScaleTransform ScaleY="1"/>
+            </Border.RenderTransform>
+            <Border.Background>
+                <SolidColorBrush Color="Black" Opacity="0.95"/>
+            </Border.Background>
+            <Border BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushBright}" CornerRadius="2" Margin="0" Padding="{StaticResource Padding_Form_Outer}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Faj</TextBlock>
+                        <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Válaszd ki a készülő karaktered faját:</TextBlock>
+                        <ComboBox ToolTip="Részletekért nézd meg a fajok ismertetését a leírások között!" ItemsSource="{Binding Path=Manager.Races}" DisplayMemberPath="Name" SelectedValue="{Binding Path=GetCharacter.CharRace}" SelectionChanged="ComboBox_SelectionChanged_1">
+                            <ComboBox.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseDown">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="border_Race_Main" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" From="0"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ComboBox.Triggers>
+                        </ComboBox>
+                        <TextBlock Style="{StaticResource VisibleAnimation}" Name="tb_Race_title" Visibility="Collapsed" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Faji tulajdonság módosítók:</TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Style="{StaticResource VisibleAnimation}" Name="sp_Race_stats" Grid.Column="0" HorizontalAlignment="Left" Visibility="Collapsed">
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Erő:</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Ügyesség:</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Állóképesség:</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Intelligencia:</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Akaraterő:</TextBlock>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Karizma:</TextBlock>
+                            </StackPanel>
+                            <StackPanel Style="{StaticResource VisibleAnimation}" Name="sp_Race_modifiers" Grid.Column="1" HorizontalAlignment="Right" Visibility="Collapsed">
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=GetCharacter.CharRace.StrengthModifier}"/>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=GetCharacter.CharRace.DextirityModifier}"/>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=GetCharacter.CharRace.EnduranceModifier}"/>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=GetCharacter.CharRace.IntellectModifier}"/>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=GetCharacter.CharRace.WillpowerModifier}"/>
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=GetCharacter.CharRace.CharismModifier}"/>
+                            </StackPanel>
+                        </Grid>
+                        <Label Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Add meg a karakter nemét:</Label>
+                        <TextBox Name="tb_Race_gender" Margin="{StaticResource Button_Hover}" Text="{Binding Path=GetCharacter.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                        <Button Name="btn_Race_next" Click="Button_Click_1" IsEnabled="False">Következő</Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>

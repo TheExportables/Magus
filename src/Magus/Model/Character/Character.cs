@@ -83,6 +83,8 @@ namespace Magus.Model {
             unusedBonusAttributePoints = 0;
             greaterSpheres = new ObservableCollection<GreaterSphere>();
             smallerSpheres = new ObservableCollection<SmallerSphere>();
+            c1 = Characteristic.Élet;
+            c2 = Characteristic.Üres;
         }
         #endregion
 

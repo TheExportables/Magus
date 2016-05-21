@@ -21,13 +21,14 @@ namespace Magus
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        DataManager manager;
         DataLoader loader;
 
         public MainWindow()
         {
             InitializeComponent();
             //Initialize with wanted datasource
+            manager = DataManager.Instance;
             loader = new TestDataLoader();
         }
 

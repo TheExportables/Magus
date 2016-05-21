@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Magus.Model {
     public enum Characteristic {
-        Order,
-        Chaos,
-        Life,
-        Death,
-        None
+        Rend,
+        Káosz,
+        Élet,
+        Halál,
+        Üres
     }
 }

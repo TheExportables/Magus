@@ -3,9 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Grid>
-            
+        <Border Name="border_Race_Main" Grid.Column="0"  BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushDark}" CornerRadius="3" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border.Background>
+                <SolidColorBrush Color="Black" Opacity="0.95"/>
+            </Border.Background>
+            <Border BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushBright}" CornerRadius="2" Margin="0" Padding="{StaticResource Padding_Form_Outer}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>    
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Válaszd ki, melyik istenben hisz karaktered. Ez papoknak a későbbiekben módosítható lesz.</TextBlock>
+                    <ComboBox ToolTip="Részletekért nézd meg a vallások kifejtését a leírások között!" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=Manager.Deities}" DisplayMemberPath="Name" SelectedValue="{Binding Path=GetCharacter.Religion}"></ComboBox>
+                </Grid>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>

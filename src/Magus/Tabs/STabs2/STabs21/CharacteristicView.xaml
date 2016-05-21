@@ -3,9 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d">
     <Grid>
-            
+        <Border Name="border_Race_Main" Grid.Column="0"  BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushDark}" CornerRadius="3" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border.Background>
+                <SolidColorBrush Color="Black" Opacity="0.95"/>
+            </Border.Background>
+            <Border BorderThickness="1" BorderBrush="{StaticResource InnerBorderBrushBright}" CornerRadius="2" Margin="0" Padding="{StaticResource Padding_Form_Outer}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="3" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Jellem</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Add meg karaktered jellemét!</TextBlock>
+                    <ComboBox ToolTip="Részletekért nézd meg a jellemek kifejtését a leírások között!" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Path=Characteristics}" SelectedValue="{Binding Path=GetCharacter.C1}" SelectionChanged="ComboBox_SelectionChanged_1"/>
+                    <ComboBox ToolTip="Részletekért nézd meg a jellemek kifejtését a leírások között!" Name="cb_Characteristic_2" Grid.Row="2" Grid.Column="2" ItemsSource="{Binding}" SelectedValue="{Binding Path=GetCharacter.C2}"/>
+                    <Button IsEnabled="False" Name="btn_Characteristic_next" Grid.Row="3" Grid.ColumnSpan="3" Width="Auto" Click="Button_Click_1">Következő</Button>
+                </Grid>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>

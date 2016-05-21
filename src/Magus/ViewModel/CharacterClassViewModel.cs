@@ -13,7 +13,7 @@ namespace Magus.ViewModel {
 
         public CharacterClassViewModel(CharacterClass characterClass) {
             this.characterClass = characterClass;
-            lvl = 1;
+            lvl = 0;
         }
 
         public int Lvl {
@@ -29,31 +29,31 @@ namespace Magus.ViewModel {
         #region future VM logic
         public int getAttackValue() {
             if (lvl <= 1)
-                return characterClass.AttackValues.ElementAt(lvl - 1);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AttackValue;
             else
-                return characterClass.AttackValues.ElementAt(lvl - 1) - characterClass.AttackValues.ElementAt(lvl - 2);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AttackValue - characterClass.ValuesPerLvl.ElementAt(lvl - 2).AttackValue;
 
         }
 
         public int getVitalityValue() {
             if (lvl <= 1)
-                return characterClass.VitalityValues.ElementAt(lvl - 1);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).VitalityValue;
             else
-                return characterClass.VitalityValues.ElementAt(lvl - 1) - characterClass.VitalityValues.ElementAt(lvl - 2);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).VitalityValue - characterClass.ValuesPerLvl.ElementAt(lvl - 2).VitalityValue;
         }
 
         public int getAgilityValue() {
             if (lvl <= 1)
-                return characterClass.AgilityValues.ElementAt(lvl - 1);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AgilityValue;
             else
-                return characterClass.AgilityValues.ElementAt(lvl - 1) - characterClass.AgilityValues.ElementAt(lvl - 2);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AgilityValue - characterClass.ValuesPerLvl.ElementAt(lvl - 2).AgilityValue;
         }
 
         public int getWisdomValue() {
             if (lvl <= 1)
-                return characterClass.WisdomValues.ElementAt(lvl - 1);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).WisdomValue;
             else
-                return characterClass.WisdomValues.ElementAt(lvl - 1) - characterClass.WisdomValues.ElementAt(lvl - 2);
+                return characterClass.ValuesPerLvl.ElementAt(lvl - 1).WisdomValue - characterClass.ValuesPerLvl.ElementAt(lvl - 2).WisdomValue;
         }
         #endregion
     }

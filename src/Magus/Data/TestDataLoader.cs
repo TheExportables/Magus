@@ -27,20 +27,34 @@ namespace Magus.Data {
         }
 
         public void loadRaces() {
-            Race race = new Race("Teszt faj", 1, 1, 1, 5, -1, 0);
+            Race race = new Race("Teszt faj", "Bölcs és méltán híres tesztelők népe, akik mind a Tesztek isteneiben hisznek, és tőlük várnak megváltást minden funkció kipróbálására teljes lefedettséggel. Vannak köztük mágiahasználók is, akik mindenféle tesztelési mágikus praktikák bevetésére képesek.", 1, 1, 1, 5, -1, 0);
             DataManager.Races.Add(race);
+            Race race2 = new Race("Teszt faj2", "Bölcs és méltán híres tesztelők népe, akik mind a Tesztek isteneiben hisznek, és tőlük várnak megváltást minden funkció kipróbálására teljes lefedettséggel. Vannak köztük mágiahasználók is, akik mindenféle tesztelési mágikus praktikák bevetésére képesek.", 1, 1, 1, 5, -1, 0);
+            DataManager.Races.Add(race2);
         }
 
         public void loadClasses() {
             CharacterClass baseClass = new CharacterClass();
             baseClass.Name = "Teszt alap kaszt";
             baseClass.Description = "Segít gyerekkorban elindulni a tesztelés felé";
-            baseClass.AttackValues.AddRange(new List<int>{1,2,3,4,5});
-            baseClass.VitalityValues.AddRange(new List<int>{0,1,2,3,4});
-            baseClass.AgilityValues.AddRange(new List<int>{3,4,5,6,7});
-            baseClass.WisdomValues.AddRange(new List<int>{0,0,1,2,3});
+            baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 1, 0, 3, 0));
+            baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 2, 1, 4, 0));
+            baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 3, 2, 5, 1));
+            baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 4, 3, 6, 2));
+            baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 5, 4, 7, 3));
             baseClass.FpPerLvl = new DiceValue(2, Dice.d8);
             baseClass.SpPerLvl = 6;
+
+            CharacterClass baseClass2 = new CharacterClass();
+            baseClass2.Name = "Teszt alap kaszt2";
+            baseClass2.Description = "Segít gyerekkorban elindulni a tesztelés felé";
+            baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 0, 3, 0, 1));
+            baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 0, 4, 1, 2));
+            baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 1, 5, 2, 3));
+            baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 2, 6, 3, 4));
+            baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 3, 7, 4, 5));
+            baseClass2.FpPerLvl = new DiceValue(2, Dice.d8);
+            baseClass2.SpPerLvl = 6;
 
             AdventurerCharacterClass adventurerCharClass = new AdventurerCharacterClass();
             adventurerCharClass.Name = "Teszt kalandozó kaszt";
@@ -51,16 +65,37 @@ namespace Magus.Data {
             adventurerCharClass.AttackValueRequirement = 1;
             adventurerCharClass.PerkRequirements.Add(getBasePerk());
             adventurerCharClass.SkillRequirements.Add(getSkillRequirement());
-            adventurerCharClass.AttackValues.AddRange(new List<int> { 1, 2, 3, 4, 5 });
-            adventurerCharClass.VitalityValues.AddRange(new List<int> { 0, 1, 2, 3, 4 });
-            adventurerCharClass.AgilityValues.AddRange(new List<int> { 3, 4, 5, 6, 7 });
-            adventurerCharClass.WisdomValues.AddRange(new List<int> { 0, 0, 1, 2, 3 });
-            adventurerCharClass.PerksPerLvl.Add(new List<Perk> { getBasePerk() });
+            adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk> { getBasePerk() }, 5, 0, 3, 0));
+            adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 6, 1, 4, 0));
+            adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 7, 2, 5, 1));
+            adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 8, 3, 6, 2));
+            adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 9, 4, 7, 3));
             adventurerCharClass.FpPerLvl = new DiceValue(3, Dice.d10);
             adventurerCharClass.SpPerLvl = 10;
 
+            AdventurerCharacterClass adventurerCharClass2 = new AdventurerCharacterClass();
+            adventurerCharClass2.Name = "Teszt kalandozó kaszt2";
+            adventurerCharClass2.Description = "Már egy szinttel fejlettebb tesztelők";
+            adventurerCharClass2.AvailableForRaces.Add("Teszt faj2");
+            adventurerCharClass2.IdealBackground = "Teszt alap kaszt 3";
+            adventurerCharClass2.StatRequirements.Add(getStatRequirement());
+            adventurerCharClass2.AttackValueRequirement = 1;
+            adventurerCharClass2.PerkRequirements.Add(getBasePerk());
+            adventurerCharClass2.SkillRequirements.Add(getSkillRequirement());
+            adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 1, 0, 3, 5));
+            adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 2, 1, 4, 6));
+            adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 3, 2, 5, 7));
+            adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 4, 3, 6, 8));
+            adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 5, 4, 7, 9));
+            adventurerCharClass2.FpPerLvl = new DiceValue(3, Dice.d10);
+            adventurerCharClass2.SpPerLvl = 10;
+
+            DataManager.BaseClasses.Add(baseClass);
+            DataManager.BaseClasses.Add(baseClass2);
             DataManager.Classes.Add(baseClass);
+            DataManager.Classes.Add(baseClass2);
             DataManager.Classes.Add(adventurerCharClass);
+            DataManager.Classes.Add(adventurerCharClass2);
         }
 
         public void loadPerks() {
@@ -98,7 +133,7 @@ namespace Magus.Data {
         }
 
         public void loadDeities() {
-            PriestDeity deity = new PriestDeity("Tesztilusz", "A tesztelés nagy istene. Mindent tud róla, amit lehet a világon", new List<GreaterSphere>{getGreaterSphere()}, new List<SmallerSphere>{getSmallerSphere()});
+            PriestDeity deity = new PriestDeity("Cthulhu", "A tesztelés nagy istene. Mindent tud róla, amit lehet a világon", new List<GreaterSphere>{getGreaterSphere()}, new List<SmallerSphere>{getSmallerSphere()});
             DataManager.Deities.Add(deity);
         }
 

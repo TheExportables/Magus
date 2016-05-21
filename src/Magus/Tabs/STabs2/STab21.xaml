@@ -6,7 +6,7 @@
              xmlns:views="clr-namespace:Magus.Tabs.STabs2.STabs21"
              mc:Ignorable="d">
 
-    <TabControl Name="CharacterCreationTab">
+    <TabControl Name="CharacterCreationTab" SelectedIndex="{Binding Path=Index, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <TabItem Header="Szint" Name="Level">
             <Grid>
                 <Grid.RowDefinitions>
@@ -47,13 +47,8 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <views:RaceView Grid.Row="0"></views:RaceView>
-                <DockPanel Grid.Row="1">
-                    <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
-                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
-                </DockPanel>
             </Grid>
         </TabItem>
         <TabItem Header="Jellem" Name="Characteristic">
@@ -65,7 +60,6 @@
                 <views:CharacteristicView Grid.Row="0"></views:CharacteristicView>
                 <DockPanel Grid.Row="1">
                     <Button Content="Előző lépés" HorizontalAlignment="Left" Margin="5,5,5,5" Click="prev_click"/>
-                    <Button Content="Következő lépés" HorizontalAlignment="Right" Margin="5,5,5,5" Click="next_click"/>
                 </DockPanel>
             </Grid>
         </TabItem>
