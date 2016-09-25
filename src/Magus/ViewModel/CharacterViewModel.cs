@@ -14,6 +14,8 @@ namespace Magus.ViewModel {
         Character c;
         int availableLvlPoints;
         int index;
+        int cheatingPp;
+        int cheatingSp;
         ObservableCollection<CharacterClass> availableClassesForRace;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -44,6 +46,45 @@ namespace Magus.ViewModel {
             lvlUpClass(c.CharClasses.IndexOf(c.CharClasses.Where(cc => cc.CharClass.Equals(acc)).FirstOrDefault()));
         }
 
+        public void removeCharacterClass(int classIndex) {
+            int lvlBeforeRemoval = c.CharClasses.ElementAt(classIndex).Lvl;
+            CharacterClassViewModel classViewModelToRemove = c.CharClasses.ElementAt(classIndex);
+            CharacterClass classToRemove = classViewModelToRemove.CharClass;
+
+            c.CharClasses.Remove(classViewModelToRemove);
+
+            c.CharStats.AttackValue -= classViewModelToRemove.getAttackValue();
+            c.CharStats.Vitality -= classViewModelToRemove.getVitalityValue();
+            c.CharStats.Agility -= classViewModelToRemove.getAgilityValue();
+            c.CharStats.Wisdom -= classViewModelToRemove.getWisdomValue();
+
+            c.UnusedSp -= (classToRemove.SpPerLvl + c.CharStats.Intellect.Modifier)*lvlBeforeRemoval;
+            if (c.UnusedSp < 0) {
+                cheatingSp -= c.UnusedSp;
+                c.UnusedSp = 0;
+            }
+
+            foreach (var item in classToRemove.ValuesPerLvl) {
+                if (item.Perks.Exists(p => p.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase)))
+                    c.UnusedPp -= 1;
+            }
+            if (c.UnusedPp < 0) {
+                cheatingPp -= c.UnusedPp;
+                c.UnusedPp = 0;
+            }
+
+            for (int i = 0; i < lvlBeforeRemoval; i++)
+                foreach (var value in classToRemove.FpPerLvl.generateValue())
+                    c.CharStats.Fp.decreaseFp(value + c.CharStats.Endurance.Modifier);
+
+            if (classToRemove.GetType() == typeof(AdventurerCharacterClass))
+                removeCharacterClass(classToRemove as AdventurerCharacterClass, lvlBeforeRemoval);
+        }
+
+        public void removeCharacterClass(AdventurerCharacterClass classToRemove, int lvlBeforeRemoval) {
+            //TODO magicschool
+        }
+
         public bool alreadyHasClass(CharacterClass charClass) {
             return c.CharClasses.Contains(c.CharClasses.Where(cc => cc.CharClass.Equals(charClass)).FirstOrDefault());
         }
@@ -55,15 +96,15 @@ namespace Magus.ViewModel {
                 c.UnusedPp++;
             if (c.CharLvl / 4 == 0)
                 c.UnusedBonusAttributePoints++;
-            c.CharStats.Agility += c.CharClasses.ElementAt(index).getAgilityValue();
-            c.CharStats.Vitality += c.CharClasses.ElementAt(index).getVitalityValue();
-            c.CharStats.Wisdom += c.CharClasses.ElementAt(index).getWisdomValue();
-            c.CharStats.AttackValue += c.CharClasses.ElementAt(index).getAttackValue();
+            c.CharStats.Agility += c.CharClasses.ElementAt(index).getAgilityValueIncrease();
+            c.CharStats.Vitality += c.CharClasses.ElementAt(index).getVitalityValueIncrease();
+            c.CharStats.Wisdom += c.CharClasses.ElementAt(index).getWisdomValueIncrease();
+            c.CharStats.AttackValue += c.CharClasses.ElementAt(index).getAttackValueIncrease();
             c.UnusedSp += c.CharClasses.ElementAt(index).CharClass.SpPerLvl + c.CharStats.Intellect.Modifier;
             foreach (var item in c.CharClasses.ElementAt(index).CharClass.FpPerLvl.generateValue()) {
-                c.CharStats.Fp.increaseFp(item);
+                c.CharStats.Fp.increaseFp(item+c.CharStats.Endurance.Modifier);
             }
-            if (c.CharClasses.ElementAt(index).GetType() == typeof(AdventurerCharacterClass)) {
+            if (c.CharClasses.ElementAt(index).CharClass.GetType() == typeof(AdventurerCharacterClass)) {
                 AdventurerCharacterClass acc = c.CharClasses.ElementAt(index).CharClass as AdventurerCharacterClass;
                 if (acc.School != null) {
                     if (acc.School.ManaPerLvl != 0) {
@@ -89,6 +130,7 @@ namespace Magus.ViewModel {
                 if (charClass is AdventurerCharacterClass) {
                     if ((charClass as AdventurerCharacterClass).AvailableForRaces.Contains(c.CharRace.Name)) {
                         availableClassesForRace.Add(charClass);
+                        OnPropertyChanged("AvailableClassesForRace");
                     }
                 }
             }

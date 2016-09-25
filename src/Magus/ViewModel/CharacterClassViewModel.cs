@@ -26,8 +26,12 @@ namespace Magus.ViewModel {
             set { this.characterClass = value; } 
         }
 
-        #region future VM logic
+        #region VM logic
         public int getAttackValue() {
+            return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AttackValue;
+        }
+
+        public int getAttackValueIncrease() {
             if (lvl <= 1)
                 return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AttackValue;
             else
@@ -36,6 +40,10 @@ namespace Magus.ViewModel {
         }
 
         public int getVitalityValue() {
+            return characterClass.ValuesPerLvl.ElementAt(lvl - 1).VitalityValue;
+        }
+
+        public int getVitalityValueIncrease() {
             if (lvl <= 1)
                 return characterClass.ValuesPerLvl.ElementAt(lvl - 1).VitalityValue;
             else
@@ -43,6 +51,10 @@ namespace Magus.ViewModel {
         }
 
         public int getAgilityValue() {
+            return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AgilityValue;
+        }
+
+        public int getAgilityValueIncrease() {
             if (lvl <= 1)
                 return characterClass.ValuesPerLvl.ElementAt(lvl - 1).AgilityValue;
             else
@@ -50,6 +62,10 @@ namespace Magus.ViewModel {
         }
 
         public int getWisdomValue() {
+            return characterClass.ValuesPerLvl.ElementAt(lvl - 1).WisdomValue;
+        }
+
+        public int getWisdomValueIncrease() {
             if (lvl <= 1)
                 return characterClass.ValuesPerLvl.ElementAt(lvl - 1).WisdomValue;
             else

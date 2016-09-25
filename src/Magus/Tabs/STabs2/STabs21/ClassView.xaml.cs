@@ -27,19 +27,13 @@ namespace Magus.Tabs.STabs2.STabs21 {
 
         private void addButton_Click_1(object sender, RoutedEventArgs e) {
             ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext).addCharacterClass(DataManager.BaseClasses.ElementAt(cb_Class_base.SelectedIndex));
-            tab_Class_pickedClasses.ItemsSource = ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext).GetCharacter.CharClasses;
             btn_Class_addBaseClass.IsEnabled = false;
         }
 
         private void addButton_Click_2(object sender, RoutedEventArgs e) {
             var context = ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext);
             context.addCharacterClass(context.AvailableClassesForRace.ElementAt(cb_Class_adventurer.SelectedIndex));
-            tab_Class_pickedClasses.ItemsSource = context.GetCharacter.CharClasses;
             btn_Class_addAdventurerClass.IsEnabled = false;
-        }
-
-        private void cb_Class_adventurer_DropDownOpened_1(object sender, EventArgs e) {
-            cb_Class_adventurer.ItemsSource = ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext).AvailableClassesForRace;
         }
 
         private void cb_Class_base_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
@@ -48,7 +42,9 @@ namespace Magus.Tabs.STabs2.STabs21 {
 
         private void cb_Class_adventurer_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
             var context = ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext);
-            btn_Class_addAdventurerClass.IsEnabled = !context.alreadyHasClass(context.AvailableClassesForRace.ElementAt(cb_Class_adventurer.SelectedIndex));
+            Console.WriteLine(cb_Class_adventurer.SelectedIndex);
+            if (cb_Class_adventurer.SelectedIndex != -1)
+                btn_Class_addAdventurerClass.IsEnabled = !context.alreadyHasClass(context.AvailableClassesForRace.ElementAt(cb_Class_adventurer.SelectedIndex));
         }
 
     }

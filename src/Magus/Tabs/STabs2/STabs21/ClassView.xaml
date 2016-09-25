@@ -17,11 +17,11 @@
             <ComboBox Name="cb_Class_base" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding Path=Manager.BaseClasses}" DisplayMemberPath="Name" Margin="5,10,5,10" SelectionChanged="cb_Class_base_SelectionChanged_1"></ComboBox>
             <Button x:Name="btn_Class_addBaseClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_1"/>
             <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" >Kalandozó kasztok, melyek elérhetők a választott faj számára: </TextBlock>
-            <ComboBox Name="cb_Class_adventurer" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding}" DisplayMemberPath="Name" Margin="5,10,5,10" DropDownOpened="cb_Class_adventurer_DropDownOpened_1" SelectionChanged="cb_Class_adventurer_SelectionChanged_1"></ComboBox>
+            <ComboBox Name="cb_Class_adventurer" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding Path=AvailableClassesForRace}" DisplayMemberPath="Name" Margin="5,10,5,10" SelectionChanged="cb_Class_adventurer_SelectionChanged_1"></ComboBox>
             <Button x:Name="btn_Class_addAdventurerClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_2"/>
         </DockPanel>
         <DockPanel Grid.Row="1" LastChildFill="True">
-            <TabControl x:Name="tab_Class_pickedClasses" Margin="5" Style="{StaticResource SideTabControlStyle}" ItemContainerStyle="{StaticResource SideTabItemStyle}" ItemsSource="{Binding}">
+            <TabControl x:Name="tab_Class_pickedClasses" Margin="5" Style="{StaticResource SideTabControlStyle}" ItemContainerStyle="{StaticResource SideTabItemStyle}" ItemsSource="{Binding Path=GetCharacter.CharClasses}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Path=CharClass.Name}"/>

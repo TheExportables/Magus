@@ -42,7 +42,7 @@ namespace Magus.Data {
             baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 3, 2, 5, 1));
             baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 4, 3, 6, 2));
             baseClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 5, 4, 7, 3));
-            baseClass.FpPerLvl = new DiceValue(2, Dice.d8);
+            baseClass.FpPerLvl = new DiceValue(1, Dice.d8);
             baseClass.SpPerLvl = 6;
 
             CharacterClass baseClass2 = new CharacterClass();
@@ -53,7 +53,7 @@ namespace Magus.Data {
             baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 1, 5, 2, 3));
             baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 2, 6, 3, 4));
             baseClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 3, 7, 4, 5));
-            baseClass2.FpPerLvl = new DiceValue(2, Dice.d8);
+            baseClass2.FpPerLvl = new DiceValue(1, Dice.d8);
             baseClass2.SpPerLvl = 6;
 
             AdventurerCharacterClass adventurerCharClass = new AdventurerCharacterClass();
@@ -70,7 +70,7 @@ namespace Magus.Data {
             adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 7, 2, 5, 1));
             adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 8, 3, 6, 2));
             adventurerCharClass.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 9, 4, 7, 3));
-            adventurerCharClass.FpPerLvl = new DiceValue(3, Dice.d10);
+            adventurerCharClass.FpPerLvl = new DiceValue(1, Dice.d10);
             adventurerCharClass.SpPerLvl = 10;
 
             AdventurerCharacterClass adventurerCharClass2 = new AdventurerCharacterClass();
@@ -87,7 +87,7 @@ namespace Magus.Data {
             adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 3, 2, 5, 7));
             adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 4, 3, 6, 8));
             adventurerCharClass2.ValuesPerLvl.Add(new ClassValuesPerLvl(new List<Perk>(), 5, 4, 7, 9));
-            adventurerCharClass2.FpPerLvl = new DiceValue(3, Dice.d10);
+            adventurerCharClass2.FpPerLvl = new DiceValue(1, Dice.d10);
             adventurerCharClass2.SpPerLvl = 10;
 
             DataManager.BaseClasses.Add(baseClass);
