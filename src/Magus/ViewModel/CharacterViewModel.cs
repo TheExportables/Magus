@@ -16,6 +16,8 @@ namespace Magus.ViewModel {
         int index;
         int cheatingPp;
         int cheatingSp;
+        int cheatingAttributePoints;
+        int cheatingSpellPoints;
         ObservableCollection<CharacterClass> availableClassesForRace;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -46,6 +48,19 @@ namespace Magus.ViewModel {
             lvlUpClass(c.CharClasses.IndexOf(c.CharClasses.Where(cc => cc.CharClass.Equals(acc)).FirstOrDefault()));
         }
 
+        public void removeDependantCharacterClasses() {
+            List<int> removeIndex = new List<int>();
+            foreach (var charClass in c.CharClasses) {
+                if (charClass.CharClass is AdventurerCharacterClass) {
+                    if (!availableClassesForRace.Contains(charClass.CharClass))
+                        removeIndex.Add(c.CharClasses.IndexOf(charClass));
+                }
+            }
+            foreach (int index in removeIndex) {
+                removeCharacterClass(index);
+            }
+        }
+
         public void removeCharacterClass(int classIndex) {
             int lvlBeforeRemoval = c.CharClasses.ElementAt(classIndex).Lvl;
             CharacterClassViewModel classViewModelToRemove = c.CharClasses.ElementAt(classIndex);
@@ -65,8 +80,11 @@ namespace Magus.ViewModel {
             }
 
             foreach (var item in classToRemove.ValuesPerLvl) {
-                if (item.Perks.Exists(p => p.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase)))
-                    c.UnusedPp -= 1;
+                foreach (var perk in item.Perks) { 
+                    if(perk.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase))
+                        c.UnusedPp -= 1;
+                    c.Perks.Remove(perk);
+                }
             }
             if (c.UnusedPp < 0) {
                 cheatingPp -= c.UnusedPp;
@@ -82,7 +100,15 @@ namespace Magus.ViewModel {
         }
 
         public void removeCharacterClass(AdventurerCharacterClass classToRemove, int lvlBeforeRemoval) {
-            //TODO magicschool
+            if (classToRemove.School != null) {
+                c.MagicSchools.Remove(classToRemove.School);
+                foreach (var mastery in classToRemove.School.SchoolMasteries) {
+                    c.MagicalMasteries.Remove(c.MagicalMasteries.Where(mmvm => mmvm.mastery.Equals(mastery)).FirstOrDefault());
+                    foreach (var spell in mastery.Spells) {
+                        c.Spells.Remove(spell);
+                    }
+                }
+            }
         }
 
         public bool alreadyHasClass(CharacterClass charClass) {
@@ -92,32 +118,115 @@ namespace Magus.ViewModel {
         public void lvlUpClass(int index) {
             c.CharClasses.ElementAt(index).Lvl++;
             c.CharLvl++;
-            if (c.CharLvl / 3 == 0 && c.CharLvl!=3)
-                c.UnusedPp++;
+
+            if (c.CharLvl / 3 == 0 && c.CharLvl != 3)
+                if (cheatingPp > 0)
+                    cheatingPp--;
+                else
+                    c.UnusedPp++;
             if (c.CharLvl / 4 == 0)
-                c.UnusedBonusAttributePoints++;
+                if (cheatingAttributePoints > 0)
+                    cheatingAttributePoints--;
+                else
+                    c.UnusedBonusAttributePoints++;
+
             c.CharStats.Agility += c.CharClasses.ElementAt(index).getAgilityValueIncrease();
             c.CharStats.Vitality += c.CharClasses.ElementAt(index).getVitalityValueIncrease();
             c.CharStats.Wisdom += c.CharClasses.ElementAt(index).getWisdomValueIncrease();
             c.CharStats.AttackValue += c.CharClasses.ElementAt(index).getAttackValueIncrease();
-            c.UnusedSp += c.CharClasses.ElementAt(index).CharClass.SpPerLvl + c.CharStats.Intellect.Modifier;
+
+            int spGain = c.CharClasses.ElementAt(index).CharClass.SpPerLvl + c.CharStats.Intellect.Modifier;
+            if (cheatingSp > 0) {
+                cheatingSp -= spGain;
+                if (cheatingSp < 0) {
+                    c.UnusedSp -= cheatingSp;
+                    cheatingSp = 0;
+                }
+            } else
+                c.UnusedSp += spGain;
+
             foreach (var item in c.CharClasses.ElementAt(index).CharClass.FpPerLvl.generateValue()) {
                 c.CharStats.Fp.increaseFp(item+c.CharStats.Endurance.Modifier);
             }
+
             if (c.CharClasses.ElementAt(index).CharClass.GetType() == typeof(AdventurerCharacterClass)) {
                 AdventurerCharacterClass acc = c.CharClasses.ElementAt(index).CharClass as AdventurerCharacterClass;
                 if (acc.School != null) {
                     if (acc.School.ManaPerLvl != 0) {
                         c.ManaPoints.increaseMp(acc.School.ManaPerLvl);
-                        c.UnusedSpellPoints += 3;
+                        if (cheatingSpellPoints > 0)
+                            cheatingSpellPoints -= 3;
+                        else
+                            c.UnusedSpellPoints += 3;
                     }
                 }
                 foreach (var item in acc.ValuesPerLvl.ElementAt(c.CharClasses.ElementAt(index).Lvl - 1).Perks) {
                     // bound string could be a reference to a dependent resourceString in the future
                     if (item.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase))
-                        c.UnusedPp++;
+                        if (cheatingPp > 0)
+                            cheatingPp--;
+                        else
+                            c.UnusedPp++;
                     else
                         c.Perks.Add(item);
+                }
+            }
+            calculateSkillLvl();
+        }
+
+        public void decreaseClassLvl(int index) {
+            if (c.CharLvl / 3 == 0 && c.CharLvl != 3)
+                c.UnusedPp--;
+            if (c.UnusedPp < 0) {
+                cheatingPp -= c.UnusedPp;
+                c.UnusedPp = 0;
+            }
+            if (c.CharLvl / 4 == 0)
+                c.UnusedBonusAttributePoints--;
+            if (c.UnusedBonusAttributePoints < 0) {
+                cheatingAttributePoints -= c.UnusedBonusAttributePoints;
+                c.UnusedBonusAttributePoints = 0;
+            }
+            c.CharLvl--;
+
+            c.CharStats.Agility -= c.CharClasses.ElementAt(index).getAgilityValueIncrease();
+            c.CharStats.Vitality -= c.CharClasses.ElementAt(index).getVitalityValueIncrease();
+            c.CharStats.Wisdom -= c.CharClasses.ElementAt(index).getWisdomValueIncrease();
+            c.CharStats.AttackValue -= c.CharClasses.ElementAt(index).getAttackValueIncrease();
+            c.CharClasses.ElementAt(index).Lvl--;
+
+            c.UnusedSp -= c.CharClasses.ElementAt(index).CharClass.SpPerLvl + c.CharStats.Intellect.Modifier;
+            if (c.UnusedSp < 0) {
+                cheatingSp -= c.UnusedSp;
+                c.UnusedSp = 0;
+            }
+
+            foreach (var item in c.CharClasses.ElementAt(index).CharClass.FpPerLvl.generateValue()) {
+                c.CharStats.Fp.decreaseFp(item + c.CharStats.Endurance.Modifier);
+            }
+
+            if (c.CharClasses.ElementAt(index).CharClass.GetType() == typeof(AdventurerCharacterClass)) {
+                AdventurerCharacterClass acc = c.CharClasses.ElementAt(index).CharClass as AdventurerCharacterClass;
+                if (acc.School != null) {
+                    if (acc.School.ManaPerLvl != 0) {
+                        c.ManaPoints.decreaseMp(acc.School.ManaPerLvl);
+                        c.UnusedSpellPoints -= 3;
+                        if (c.UnusedSpellPoints < 0) {
+                            cheatingSpellPoints -= c.UnusedSpellPoints;
+                            c.UnusedSpellPoints = 0;
+                        }
+                    }
+                }
+                foreach (var item in acc.ValuesPerLvl.ElementAt(c.CharClasses.ElementAt(index).Lvl).Perks) {
+                    // bound string could be a reference to a dependent resourceString in the future
+                    if (item.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase)) {
+                        c.UnusedPp--;
+                        if (c.UnusedPp < 0) {
+                            cheatingPp -= c.UnusedPp;
+                            c.UnusedPp = 0;
+                        }
+                    } else
+                        c.Perks.Remove(item);
                 }
             }
             calculateSkillLvl();

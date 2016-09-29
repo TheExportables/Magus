@@ -28,11 +28,13 @@ namespace Magus.Tabs.STabs2.STabs21 {
         }
 
         private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e) {
+            var characterVM = ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext);
             tb_Race_title.Visibility = Visibility.Visible;
             sp_Race_stats.Visibility = Visibility.Visible;
             sp_Race_modifiers.Visibility = Visibility.Visible;
             btn_Race_next.IsEnabled = true;
-            ((CharacterViewModel)((FrameworkElement)this.Parent).DataContext).getAvailableClassesForRace();
+            characterVM.getAvailableClassesForRace();
+            characterVM.removeDependantCharacterClasses();
         }
     }
 }

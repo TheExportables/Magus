@@ -12,6 +12,7 @@ namespace Magus.Model {
         int vitalityValue;
         int agilityValue;
         int wisdomValue;
+        int atLvl;
 
         public ClassValuesPerLvl() {
             perks = new List<Perk>();
@@ -19,14 +20,16 @@ namespace Magus.Model {
             vitalityValue = 0;
             agilityValue = 0;
             wisdomValue = 0;
+            atLvl = 0;
         }
 
-        public ClassValuesPerLvl(List<Perk> perks, int attackValue, int vitalityValue, int agilityValue, int wisdomValue) {
+        public ClassValuesPerLvl(List<Perk> perks, int attackValue, int vitalityValue, int agilityValue, int wisdomValue, int atLvl) {
             this.perks = perks;
             this.attackValue = attackValue;
             this.vitalityValue = vitalityValue;
             this.agilityValue = agilityValue;
             this.wisdomValue = wisdomValue;
+            this.atLvl = atLvl;
         }
 
         public List<Perk> Perks {
@@ -48,6 +51,10 @@ namespace Magus.Model {
         public int WisdomValue {
             get { return wisdomValue; }
             set { this.wisdomValue = value; }
+        }
+        public int ValuesAtLvl {
+            get { return atLvl; }
+            set { this.atLvl = value; }
         }
 
     }

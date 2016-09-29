@@ -15,10 +15,10 @@
         <DockPanel Grid.Row="0" LastChildFill="False">
             <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Alapkasztok:</TextBlock>
             <ComboBox Name="cb_Class_base" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding Path=Manager.BaseClasses}" DisplayMemberPath="Name" Margin="5,10,5,10" SelectionChanged="cb_Class_base_SelectionChanged_1"></ComboBox>
-            <Button x:Name="btn_Class_addBaseClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_1"/>
+            <Button x:Name="btn_Class_addBaseClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_1" IsEnabled="False"/>
             <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" >Kalandozó kasztok, melyek elérhetők a választott faj számára: </TextBlock>
             <ComboBox Name="cb_Class_adventurer" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding Path=AvailableClassesForRace}" DisplayMemberPath="Name" Margin="5,10,5,10" SelectionChanged="cb_Class_adventurer_SelectionChanged_1"></ComboBox>
-            <Button x:Name="btn_Class_addAdventurerClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_2"/>
+            <Button x:Name="btn_Class_addAdventurerClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_2" IsEnabled="False"/>
         </DockPanel>
         <DockPanel Grid.Row="1" LastChildFill="True">
             <TabControl x:Name="tab_Class_pickedClasses" Margin="5" Style="{StaticResource SideTabControlStyle}" ItemContainerStyle="{StaticResource SideTabItemStyle}" ItemsSource="{Binding Path=GetCharacter.CharClasses}">
@@ -29,15 +29,44 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <DataGrid ItemsSource="{Binding Path=CharClass.ValuesPerLvl}" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="TÉ" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=AttackValue}"/>
-                                <DataGridTextColumn Header="Szívósság" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=VitalityValue}"/>
-                                <DataGridTextColumn Header="Gyorsaság" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=AgilityValue}"/>
-                                <DataGridTextColumn Header="Tudat" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=WisdomValue}"/>
-                                <DataGridTextColumn Header="Képesség" Width="SizeToCells" IsReadOnly="True" Binding="{Binding Path=Perks}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <DataGrid Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Path=CharClass.ValuesPerLvl}" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Szint" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=ValuesAtLvl}" CanUserReorder="False"/>
+                                    <DataGridTextColumn Header="TÉ" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=AttackValue}"/>
+                                    <DataGridTextColumn Header="Szívósság" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=VitalityValue}"/>
+                                    <DataGridTextColumn Header="Gyorsaság" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=AgilityValue}"/>
+                                    <DataGridTextColumn Header="Tudat" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=WisdomValue}"/>
+                                    <DataGridTemplateColumn Header="Képességek" Width="*" IsReadOnly="True" CanUserSort="False">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ItemsControl ItemsSource="{Binding Path=Perks}" DisplayMemberPath="Name"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Karaktered szintjét az alábbi gombokkal, vagy a listában a kívánt szint kiválasztásával változtathatod</TextBlock>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Name="btn_Class_DecreaseLvl">Szintvesztés</Button>
+                                    <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="Ennyi szintet léphetsz még: "/>
+                                    <TextBlock Name="" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=AvailableLvlPoints}"/>
+                                    <Button Name="btn_Class_IncreaseLvl">Szintlépés</Button>
+                                </StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Vagy törölheted a kasztot a karaktered kasztjai közül</TextBlock>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Name="btn_Class_RemoveClass" Width="Auto">Kaszt törlése</Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
