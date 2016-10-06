@@ -68,6 +68,8 @@ namespace Magus.ViewModel {
 
             c.CharClasses.Remove(classViewModelToRemove);
 
+            AvailableLvlPoints += lvlBeforeRemoval;
+
             c.CharStats.AttackValue -= classViewModelToRemove.getAttackValue();
             c.CharStats.Vitality -= classViewModelToRemove.getVitalityValue();
             c.CharStats.Agility -= classViewModelToRemove.getAgilityValue();
@@ -115,9 +117,21 @@ namespace Magus.ViewModel {
             return c.CharClasses.Contains(c.CharClasses.Where(cc => cc.CharClass.Equals(charClass)).FirstOrDefault());
         }
 
+        public void setClassLvl(int index, int lvl) {
+            getCharacterClassViewModel(index).Lvl = lvl;
+        }
+
+        public void lvlUpClass(int index, int amount) {
+            getCharacterClassViewModel(index).Lvl -= amount;
+            for (int i = 0; i < amount; i++) {
+                lvlUpClass(index);
+            }
+        }
+
         public void lvlUpClass(int index) {
-            c.CharClasses.ElementAt(index).Lvl++;
+            getCharacterClassViewModel(index).Lvl++;
             c.CharLvl++;
+            AvailableLvlPoints--;
 
             if (c.CharLvl / 3 == 0 && c.CharLvl != 3)
                 if (cheatingPp > 0)
@@ -130,12 +144,12 @@ namespace Magus.ViewModel {
                 else
                     c.UnusedBonusAttributePoints++;
 
-            c.CharStats.Agility += c.CharClasses.ElementAt(index).getAgilityValueIncrease();
-            c.CharStats.Vitality += c.CharClasses.ElementAt(index).getVitalityValueIncrease();
-            c.CharStats.Wisdom += c.CharClasses.ElementAt(index).getWisdomValueIncrease();
-            c.CharStats.AttackValue += c.CharClasses.ElementAt(index).getAttackValueIncrease();
+            c.CharStats.Agility += getCharacterClassViewModel(index).getAgilityValueIncrease();
+            c.CharStats.Vitality += getCharacterClassViewModel(index).getVitalityValueIncrease();
+            c.CharStats.Wisdom += getCharacterClassViewModel(index).getWisdomValueIncrease();
+            c.CharStats.AttackValue += getCharacterClassViewModel(index).getAttackValueIncrease();
 
-            int spGain = c.CharClasses.ElementAt(index).CharClass.SpPerLvl + c.CharStats.Intellect.Modifier;
+            int spGain = getCharacterClass(index).SpPerLvl + c.CharStats.Intellect.Modifier;
             if (cheatingSp > 0) {
                 cheatingSp -= spGain;
                 if (cheatingSp < 0) {
@@ -145,12 +159,12 @@ namespace Magus.ViewModel {
             } else
                 c.UnusedSp += spGain;
 
-            foreach (var item in c.CharClasses.ElementAt(index).CharClass.FpPerLvl.generateValue()) {
+            foreach (var item in getCharacterClass(index).FpPerLvl.generateValue()) {
                 c.CharStats.Fp.increaseFp(item+c.CharStats.Endurance.Modifier);
             }
 
-            if (c.CharClasses.ElementAt(index).CharClass.GetType() == typeof(AdventurerCharacterClass)) {
-                AdventurerCharacterClass acc = c.CharClasses.ElementAt(index).CharClass as AdventurerCharacterClass;
+            if (getCharacterClass(index).GetType() == typeof(AdventurerCharacterClass)) {
+                AdventurerCharacterClass acc = getCharacterClass(index) as AdventurerCharacterClass;
                 if (acc.School != null) {
                     if (acc.School.ManaPerLvl != 0) {
                         c.ManaPoints.increaseMp(acc.School.ManaPerLvl);
@@ -160,7 +174,7 @@ namespace Magus.ViewModel {
                             c.UnusedSpellPoints += 3;
                     }
                 }
-                foreach (var item in acc.ValuesPerLvl.ElementAt(c.CharClasses.ElementAt(index).Lvl - 1).Perks) {
+                foreach (var item in acc.ValuesPerLvl.ElementAt(getCharacterClassViewModel(index).Lvl - 1).Perks) {
                     // bound string could be a reference to a dependent resourceString in the future
                     if (item.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase))
                         if (cheatingPp > 0)
@@ -174,7 +188,15 @@ namespace Magus.ViewModel {
             calculateSkillLvl();
         }
 
+        public void decreaseClassLvl(int index, int amount) {
+            getCharacterClassViewModel(index).Lvl += amount;
+            for (int i = 0; i < amount; i++) {
+                decreaseClassLvl(index);
+            }
+        }
+
         public void decreaseClassLvl(int index) {
+            AvailableLvlPoints++;
             if (c.CharLvl / 3 == 0 && c.CharLvl != 3)
                 c.UnusedPp--;
             if (c.UnusedPp < 0) {
@@ -189,24 +211,24 @@ namespace Magus.ViewModel {
             }
             c.CharLvl--;
 
-            c.CharStats.Agility -= c.CharClasses.ElementAt(index).getAgilityValueIncrease();
-            c.CharStats.Vitality -= c.CharClasses.ElementAt(index).getVitalityValueIncrease();
-            c.CharStats.Wisdom -= c.CharClasses.ElementAt(index).getWisdomValueIncrease();
-            c.CharStats.AttackValue -= c.CharClasses.ElementAt(index).getAttackValueIncrease();
-            c.CharClasses.ElementAt(index).Lvl--;
+            c.CharStats.Agility -= getCharacterClassViewModel(index).getAgilityValueIncrease();
+            c.CharStats.Vitality -= getCharacterClassViewModel(index).getVitalityValueIncrease();
+            c.CharStats.Wisdom -= getCharacterClassViewModel(index).getWisdomValueIncrease();
+            c.CharStats.AttackValue -= getCharacterClassViewModel(index).getAttackValueIncrease();
+            getCharacterClassViewModel(index).Lvl--;
 
-            c.UnusedSp -= c.CharClasses.ElementAt(index).CharClass.SpPerLvl + c.CharStats.Intellect.Modifier;
+            c.UnusedSp -= getCharacterClass(index).SpPerLvl + c.CharStats.Intellect.Modifier;
             if (c.UnusedSp < 0) {
                 cheatingSp -= c.UnusedSp;
                 c.UnusedSp = 0;
             }
 
-            foreach (var item in c.CharClasses.ElementAt(index).CharClass.FpPerLvl.generateValue()) {
+            foreach (var item in getCharacterClass(index).FpPerLvl.generateValue()) {
                 c.CharStats.Fp.decreaseFp(item + c.CharStats.Endurance.Modifier);
             }
 
-            if (c.CharClasses.ElementAt(index).CharClass.GetType() == typeof(AdventurerCharacterClass)) {
-                AdventurerCharacterClass acc = c.CharClasses.ElementAt(index).CharClass as AdventurerCharacterClass;
+            if (getCharacterClass(index).GetType() == typeof(AdventurerCharacterClass)) {
+                AdventurerCharacterClass acc = getCharacterClass(index) as AdventurerCharacterClass;
                 if (acc.School != null) {
                     if (acc.School.ManaPerLvl != 0) {
                         c.ManaPoints.decreaseMp(acc.School.ManaPerLvl);
@@ -217,7 +239,7 @@ namespace Magus.ViewModel {
                         }
                     }
                 }
-                foreach (var item in acc.ValuesPerLvl.ElementAt(c.CharClasses.ElementAt(index).Lvl).Perks) {
+                foreach (var item in acc.ValuesPerLvl.ElementAt(getCharacterClassViewModel(index).Lvl).Perks) {
                     // bound string could be a reference to a dependent resourceString in the future
                     if (item.Name.Equals("Képesség", StringComparison.InvariantCultureIgnoreCase)) {
                         c.UnusedPp--;
@@ -744,8 +766,20 @@ namespace Magus.ViewModel {
             return 0;
         }
 
+        public CharacterClassViewModel getCharacterClassViewModel(int index) {
+            return c.CharClasses.ElementAt(index);
+        }
+
         public CharacterClass getCharacterClass(int index) {
             return c.CharClasses.ElementAt(index).CharClass;
+        }
+
+        public int getCharacterClassLvl(int index) {
+            return getCharacterClassViewModel(index).Lvl;
+        }
+
+        public bool hasCharacterClassReachedMaxLvl(int index) {
+            return getCharacterClassViewModel(index).Lvl == getCharacterClass(index).ValuesPerLvl.Count;
         }
 
         public ObservableCollection<CharacterClassViewModel> getCharacterClasses() {

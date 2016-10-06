@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:convert="clr-namespace:Magus.Converter"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <convert:IntegerToBooleanConverter x:Key="intToBoolConverter"/>
+        <convert:IntegerOneToBooleanConverter x:Key="intOneToBoolConverter"/>
+        <convert:ReadableindexToProgrammingindexConverter x:Key="indexConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.Background>
             <SolidColorBrush Color="Black" Opacity="0.95"/>
@@ -11,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" LastChildFill="False">
             <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Alapkasztok:</TextBlock>
@@ -19,9 +26,10 @@
             <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" >Kalandozó kasztok, melyek elérhetők a választott faj számára: </TextBlock>
             <ComboBox Name="cb_Class_adventurer" ToolTip="Részletekért nézd meg a kasztok kifejtését a leírások között!" ItemsSource="{Binding Path=AvailableClassesForRace}" DisplayMemberPath="Name" Margin="5,10,5,10" SelectionChanged="cb_Class_adventurer_SelectionChanged_1"></ComboBox>
             <Button x:Name="btn_Class_addAdventurerClass" Content="Felvétel" Margin="5,5,5,10" Click="addButton_Click_2" IsEnabled="False"/>
+            <TextBlock x:Name="tb_Class_AvailableLvlPoints" Text="{Binding Path=AvailableLvlPoints}" Visibility="Collapsed"/>
         </DockPanel>
         <DockPanel Grid.Row="1" LastChildFill="True">
-            <TabControl x:Name="tab_Class_pickedClasses" Margin="5" Style="{StaticResource SideTabControlStyle}" ItemContainerStyle="{StaticResource SideTabItemStyle}" ItemsSource="{Binding Path=GetCharacter.CharClasses}">
+            <TabControl x:Name="tab_Class_pickedClasses" Margin="5" Style="{StaticResource SideTabControlStyle}" ItemContainerStyle="{StaticResource SideTabItemStyle}" ItemsSource="{Binding Path=GetCharacter.CharClasses}" SelectionChanged="tab_Class_picked_SelectionChanged">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Path=CharClass.Name}"/>
@@ -37,7 +45,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <DataGrid Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Path=CharClass.ValuesPerLvl}" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False">
+                            <DataGrid Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Path=CharClass.ValuesPerLvl}" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" CanUserAddRows="False" SelectedIndex="{Binding Path=Lvl, Converter={StaticResource indexConverter}}" SelectionMode="Single" SelectionChanged="dg_Class_lvl_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Szint" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=ValuesAtLvl}" CanUserReorder="False"/>
                                     <DataGridTextColumn Header="TÉ" Width="SizeToHeader" IsReadOnly="True" Binding="{Binding Path=AttackValue}"/>
@@ -56,14 +64,14 @@
                             <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Karaktered szintjét az alábbi gombokkal, vagy a listában a kívánt szint kiválasztásával változtathatod</TextBlock>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Button Name="btn_Class_DecreaseLvl">Szintvesztés</Button>
-                                    <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="Ennyi szintet léphetsz még: "/>
-                                    <TextBlock Name="" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=AvailableLvlPoints}"/>
-                                    <Button Name="btn_Class_IncreaseLvl">Szintlépés</Button>
+                                    <Button Click="btn_Class_DecreaseLvl" IsEnabled="{Binding Path=Lvl, Converter={StaticResource intOneToBoolConverter}}">Szintvesztés</Button>
+                                    <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="Elkölthető szintlépések:"/>
+                                    <TextBlock Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}" Text="{Binding Path=Text, ElementName=tb_Class_AvailableLvlPoints}"/>
+                                    <Button Click="btn_Class_IncreaseLvl" IsEnabled="{Binding Path=Text, ElementName=tb_Class_AvailableLvlPoints, Converter={StaticResource intToBoolConverter}}">Szintlépés</Button>
                                 </StackPanel>
                                 <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource TextBrush_ForBlack}" Padding="{StaticResource Padding_Form_Inner}">Vagy törölheted a kasztot a karaktered kasztjai közül</TextBlock>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button Name="btn_Class_RemoveClass" Width="Auto">Kaszt törlése</Button>
+                                    <Button Width="Auto" Click="btn_Class_RemoveClass">Kaszt törlése</Button>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

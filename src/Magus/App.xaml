@@ -180,12 +180,12 @@
 
         <Storyboard x:Key="GridRow_Hover">
             <local:BrushAnimation Storyboard.TargetProperty="Foreground" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_TextBrush_Unselected}" To="{StaticResource Item_TextBrush_Hover}"/>
-            <local:BrushAnimation Storyboard.TargetProperty="Background" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource BackgroundBrush_Base}" To="{StaticResource Item_HoverBackgroundBrush}"/>
+            <local:BrushAnimation Storyboard.TargetProperty="Background" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_BackgroundBrush_Unselected}" To="{StaticResource Item_HoverBackgroundBrush}"/>
         </Storyboard>
 
         <Storyboard x:Key="GridRow_Unselected">
             <local:BrushAnimation Storyboard.TargetProperty="Foreground" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_TextBrush_Hover}" To="{StaticResource Item_TextBrush_Unselected}"/>
-            <local:BrushAnimation Storyboard.TargetProperty="Background" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_HoverBackgroundBrush}" To="{StaticResource BackgroundBrush_Base}"/>
+            <local:BrushAnimation Storyboard.TargetProperty="Background" Duration="0:0:0.2" FillBehavior="HoldEnd" From="{StaticResource Item_HoverBackgroundBrush}" To="{StaticResource Item_BackgroundBrush_Unselected}"/>
         </Storyboard>
 
         <!-- The Main TabControl Style. -->

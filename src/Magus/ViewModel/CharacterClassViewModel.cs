@@ -1,15 +1,18 @@
 ﻿using Magus.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Magus.ViewModel {
-    class CharacterClassViewModel {
+    class CharacterClassViewModel : INotifyPropertyChanged {
 
         CharacterClass characterClass;
         int lvl;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public CharacterClassViewModel(CharacterClass characterClass) {
             this.characterClass = characterClass;
@@ -18,12 +21,25 @@ namespace Magus.ViewModel {
 
         public int Lvl {
             get { return lvl; }
-            set { this.lvl = value; }
+            set { 
+                this.lvl = value;
+                OnPropertyChanged("Lvl");
+            }
         }
         
         public CharacterClass CharClass {
             get { return characterClass; }
-            set { this.characterClass = value; } 
+            set { 
+                this.characterClass = value;
+                OnPropertyChanged("CharClass");
+            } 
+        }
+
+        protected void OnPropertyChanged(string name) {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         #region VM logic
