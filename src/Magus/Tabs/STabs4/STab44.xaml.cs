@@ -23,6 +23,7 @@ namespace Magus.Tabs.STabs4
         public STab44()
         {
             InitializeComponent();
+            this.DataContext = DataManager.Instance;
         }
     }
 }

@@ -24,12 +24,15 @@ namespace Magus.Data {
             loadPerks();
             loadDeities();
             loadMagicShools();
+
+            loadAreas();
+            loadPantheons();
         }
 
         public void loadRaces() {
-            Race race = new Race("Teszt faj", "Bölcs és méltán híres tesztelők népe, akik mind a Tesztek isteneiben hisznek, és tőlük várnak megváltást minden funkció kipróbálására teljes lefedettséggel. Vannak köztük mágiahasználók is, akik mindenféle tesztelési mágikus praktikák bevetésére képesek.", 1, 1, 1, 5, -1, 0);
+            Race race = new Race("Teszt faj", @"D:\Munka\Bme\13felevM\dipterv1\git\Magus\src\Magus\Data\Teszt faj.rtf", 1, 1, 1, 5, -1, 0, new List<Perk>());
             DataManager.Races.Add(race);
-            Race race2 = new Race("Teszt faj2", "Bölcs és méltán híres tesztelők népe, akik mind a Tesztek isteneiben hisznek, és tőlük várnak megváltást minden funkció kipróbálására teljes lefedettséggel. Vannak köztük mágiahasználók is, akik mindenféle tesztelési mágikus praktikák bevetésére képesek.", 1, 1, 1, 5, -1, 0);
+            Race race2 = new Race("Teszt faj2", @"D:\Munka\Bme\13felevM\dipterv1\git\Magus\src\Magus\Data\Teszt faj2.rtf", 1, 1, 1, 5, -1, 0, new List<Perk>());
             DataManager.Races.Add(race2);
         }
 
@@ -157,6 +160,20 @@ namespace Magus.Data {
             MagicSchool priestSchool = new MagicSchool("Tesztelés az istenektől", "Minden fohász, ami csak a tesztelést segítheti", new List<MagicMastery> { getPriestMastery() }, 0, 0);
             DataManager.MagicShools.Add(school);
             DataManager.MagicShools.Add(priestSchool);
+        }
+
+        public void loadAreas() {
+            Area area1 = new Area("Elátkozott vidék", "");
+            Area area2 = new Area("Pyarrion", "");
+            Area area3 = new Area("Erion", "");
+            DataManager.Areas.Add(area1);
+            DataManager.Areas.Add(area2);
+            DataManager.Areas.Add(area3);
+        }
+
+        public void loadPantheons() {
+            Pantheon pantheon1 = new Pantheon("Elf kalahorák", new List<PriestDeity> { DataManager.Deities.ElementAt(0)});
+            DataManager.Pantheons.Add(pantheon1);
         }
 
         public GreaterSphere getGreaterSphere() {

@@ -17,12 +17,12 @@ namespace Magus.Model {
         int str;
 
         public Spell() {
-            name = null;
+            name = "";
             description = "";
             duration = 0;
-            range = null;
+            range = "";
             castTime = 0;
-            affects = null;
+            affects = "";
             attackAgaints = ResistanceType.None;
             str = 0;
         }

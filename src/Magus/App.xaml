@@ -328,7 +328,9 @@
 
                             <Border Padding="{StaticResource SideItemPanel_Padding}">
                                 <!-- This is the area in which TabItems (the strips) will be drawn. -->
-                                <TabPanel IsItemsHost="True"/>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <TabPanel IsItemsHost="True"/>
+                                </ScrollViewer>
                             </Border>
 
                             <Border BorderThickness="1,1,1,1" Grid.Column="1" BorderBrush="{StaticResource Item_BorderBrush_Selected}" Background="{StaticResource BackgroundBrush_Base}">

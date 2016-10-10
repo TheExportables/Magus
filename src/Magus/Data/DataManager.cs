@@ -24,6 +24,8 @@ namespace Magus.Data {
         static ObservableCollection<PriestDeity> deities;
         static ObservableCollection<MagicSchool> magicSchools;
         static ObservableCollection<Character> characters;
+        static ObservableCollection<Area> areas;
+        static ObservableCollection<Pantheon> pantheons;
 
         private static DataManager instance = null;
 
@@ -41,6 +43,8 @@ namespace Magus.Data {
             deities = new ObservableCollection<PriestDeity>();
             magicSchools = new ObservableCollection<MagicSchool>();
             characters = new ObservableCollection<Character>();
+            areas = new ObservableCollection<Area>();
+            pantheons = new ObservableCollection<Pantheon>();
         }
 
         public static DataManager Instance {
@@ -115,6 +119,16 @@ namespace Magus.Data {
         public static ObservableCollection<Character> Characters {
             get { return characters; }
             set { characters = value; }
+        }
+
+        public static ObservableCollection<Area> Areas {
+            get { return areas; }
+            set { areas = value; } 
+        }
+
+        public static ObservableCollection<Pantheon> Pantheons {
+            get { return pantheons; }
+            set { pantheons = value; }
         }
     }
 }

@@ -28,5 +28,9 @@ namespace Magus.Data {
         void loadDeities();
 
         void loadMagicShools();
+
+        void loadAreas();
+
+        void loadPantheons();
     }
 }

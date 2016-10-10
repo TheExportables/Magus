@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Magus.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace Magus.Tabs.STabs4
         public STab41()
         {
             InitializeComponent();
+            this.DataContext = DataManager.Instance;
         }
     }
 }

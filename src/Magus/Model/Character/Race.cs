@@ -15,6 +15,7 @@ namespace Magus.Model {
         int intellectModifier;
         int willpowerModifier;
         int charismModifier;
+        List<Perk> perks;
 
         public Race() {
             name = "";
@@ -25,9 +26,10 @@ namespace Magus.Model {
             intellectModifier = 0;
             willpowerModifier = 0;
             charismModifier = 0;
+            perks = new List<Perk>();
         }
 
-        public Race(String name, String description, int strMod, int dexMod, int endMod, int intMod, int willMod, int charMod) {
+        public Race(String name, String description, int strMod, int dexMod, int endMod, int intMod, int willMod, int charMod, List<Perk> racePerks) {
             this.name = name;
             this.description = description;
             this.strengthModifier = strMod;
@@ -36,6 +38,7 @@ namespace Magus.Model {
             this.intellectModifier = intMod;
             this.willpowerModifier = willMod;
             this.charismModifier = charMod;
+            this.perks = racePerks;
         }
 
         public String Name {
@@ -78,5 +81,9 @@ namespace Magus.Model {
             set { charismModifier = value; }
         }
 
+        public List<Perk> RacePerks {
+            get { return perks; }
+            set { perks = value; } 
+        }
     }
 }

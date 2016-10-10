@@ -76,6 +76,7 @@
     <Compile Include="Data\DataManager.cs" />
     <Compile Include="Data\TestDataLoader.cs" />
     <Compile Include="Model\Abilities\PerkCategory.cs" />
+    <Compile Include="Model\Area.cs" />
     <Compile Include="Model\Character\AdventurerCharacterClass.cs" />
     <Compile Include="Model\Character\ClassValuesPerLvl.cs" />
     <Compile Include="Model\Items\Armor.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Model\Magic\MagicSchool.cs" />
     <Compile Include="Model\Magic\MagicSpell.cs" />
     <Compile Include="Model\Character\Mana.cs" />
+    <Compile Include="Model\Magic\Pantheon.cs" />
     <Compile Include="Model\Magic\PriestDeity.cs" />
     <Compile Include="Model\Magic\SmallerSphere.cs" />
     <Compile Include="Model\Message.cs" />
